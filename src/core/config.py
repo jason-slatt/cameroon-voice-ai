@@ -39,10 +39,8 @@ class Settings(BaseSettings):
     
     # ==================== WHISPER (STT) ====================
     WHISPER_MODEL_PATH: str = Field(..., env="WHISPER_MODEL_PATH")
-    WHISPER_MODEL_NAME: str = Field(default="openai/whisper-large-v3")
+    WHISPER_DEVICE: str = Field(default="cuda", env="WHISPER_DEVICE")  # ADD THIS LINE
     WHISPER_COMPUTE_TYPE: Literal["float16", "float32", "int8"] = "float16"
-    WHISPER_LANGUAGE_DETECTION: bool = Field(default=True)
-    WHISPER_BEAM_SIZE: int = Field(default=5)
     
     # ==================== LLAMA (LLM) ====================
     LLAMA_MODEL_PATH: str = Field(..., env="LLAMA_MODEL_PATH")
@@ -66,12 +64,6 @@ class Settings(BaseSettings):
     AUDIO_MAX_SIZE_MB: int = Field(default=25)
     AUDIO_STORAGE_PATH: Path = Field(default=Path("./storage/audio"))
     AUDIO_CLEANUP_HOURS: int = Field(default=24)
-    
-    # ==================== WHATSAPP ====================
-    WHATSAPP_API_URL: str = Field(..., env="WHATSAPP_API_URL")
-    WHATSAPP_API_TOKEN: str = Field(..., env="WHATSAPP_API_TOKEN")
-    WHATSAPP_VERIFY_TOKEN: str = Field(..., env="WHATSAPP_VERIFY_TOKEN")
-    WHATSAPP_PHONE_NUMBER_ID: str = Field(..., env="WHATSAPP_PHONE_NUMBER_ID")
     
     # ==================== BOTPRESS ====================
     BOTPRESS_URL: str = Field(..., env="BOTPRESS_URL")

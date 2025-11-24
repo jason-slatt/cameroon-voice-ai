@@ -1,3 +1,13 @@
+# Use PyTorch wheels index first, then fall back to PyPI
+--index-url https://download.pytorch.org/whl/cpu
+--extra-index-url https://pypi.org/simple
+# For NVIDIA GPU, replace the first line with one of:
+# --index-url https://download.pytorch.org/whl/cu118
+# --index-url https://download.pytorch.org/whl/cu121
+
+
+
+
 # FastAPI & Server
 fastapi==0.109.0
 uvicorn[standard]==0.27.0
@@ -6,12 +16,12 @@ pydantic==2.5.3
 pydantic-settings==2.1.0
 
 # ML Core
-torch==2.1.2
-torchaudio==2.1.2
+torch==2.9.0
+torchaudio==2.9.0
 transformers==4.37.0
 accelerate==0.26.1
-bitsandbytes==0.41.3
 peft==0.8.2
+bitsandbytes==0.41.3; platform_system != "Windows"
 
 # Whisper
 openai-whisper==20231117
@@ -23,8 +33,7 @@ langchain-community==0.0.16
 langchain-core==0.1.16
 
 # TTS
-TTS==0.22.0
-coqui-ai-tts==0.22.0
+jieba @ https://files.pythonhosted.org/packages/c6/cb/18eeb235f833b726522d7ebed54f2278ce28ba9438e3135ab0278d9792a2/jieba-0.42.1.tar.gz
 
 # Audio Processing
 librosa==0.10.1
@@ -51,4 +60,3 @@ python-jose[cryptography]==3.3.0
 # Monitoring
 prometheus-client==0.19.0
 sentry-sdk==1.40.0
-```
