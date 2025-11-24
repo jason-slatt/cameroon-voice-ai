@@ -20,6 +20,66 @@ from src.services.whisper.preprocessor import AudioPreprocessor
 router = APIRouter()
 
 
+
+@router.get("/botpress")
+async def botpress_webhook_get(
+    conversationId: str = None,
+    text: str = None,
+):
+    """
+    GET endpoint for Botpress HTTP Request card
+    Processes message and returns response directly
+    """
+    
+    logger.info(f"📨 GET request - ConvID: {conversationId}, Text: {text}")
+    
+    if not text:
+        return {
+            "status": "error",
+            "response": "No text provided",
+            "type": "text"
+        }
+    
+    try:
+        llama = get_llama_service()
+        memory = ConversationMemory()
+        
+        # Get saved language
+        saved_language = await memory.get_language(conversationId or "default")
+        
+        # Save user message
+        if conversationId:
+            await memory.add_message(conversationId, "user", text)
+        
+        # Generate response
+        logger.info("🤖 Generating response...")
+        response = await llama.generate_response(
+            user_message=text,
+            conversation_id=conversationId or "default",
+            language=saved_language,
+        )
+        
+        logger.info(f"✅ Response: {response}")
+        
+        # Save assistant message
+        if conversationId:
+            await memory.add_message(conversationId, "assistant", response)
+        
+        return {
+            "status": "success",
+            "response": response,
+            "type": "text"
+        }
+        
+    except Exception as e:
+        logger.error(f"Error: {e}", exc_info=True)
+        return {
+            "status": "error",
+            "response": "Sorry, I encountered an error.",
+            "type": "text"
+        }
+
+
 @router.post("/botpress")
 async def botpress_webhook(
     request: Request,

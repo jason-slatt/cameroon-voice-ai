@@ -475,3 +475,302 @@ asyncio.exceptions.CancelledError
 2025-11-24 09:14:27.566 | INFO     | src.core.dependencies:initialize_services:135 - ✅ All services ready
 2025-11-24 09:14:27.566 | INFO     | src.main:lifespan:26 - ✅ Ready!
 2025-11-24 09:14:27.566 | INFO     | logging:callHandlers:1706 - Application startup complete.
+2025-11-24 12:12:17.611 | INFO     | src.main:lifespan:21 - 🚀 Starting Cameroon Voice AI
+2025-11-24 12:12:17.612 | INFO     | src.core.dependencies:initialize_services:121 - 🚀 Initializing services...
+2025-11-24 12:12:17.612 | INFO     | src.services.whisper.service:initialize:50 - Loading Whisper model...
+2025-11-24 12:12:18.498 | INFO     | src.services.whisper.service:_load_model_sync:80 - Whisper 'base' loaded on cpu
+2025-11-24 12:12:18.499 | INFO     | src.services.whisper.service:initialize:58 - ✅ Whisper loaded in 0.89s
+2025-11-24 12:12:18.499 | INFO     | src.services.llama.service:initialize:32 - Loading LLaMA model...
+2025-11-24 12:12:18.506 | DEBUG    | logging:callHandlers:1706 - Starting new HTTPS connection (1): huggingface.co:443
+2025-11-24 12:12:19.956 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-11-24 12:12:20.352 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/config.json HTTP/1.1" 200 0
+2025-11-24 12:12:24.151 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/generation_config.json HTTP/1.1" 200 0
+2025-11-24 12:12:24.156 | INFO     | src.services.llama.service:initialize:39 - ✅ LLaMA loaded in 5.66s
+2025-11-24 12:12:24.157 | DEBUG    | logging:callHandlers:1706 - load_ssl_context verify=True cert=None trust_env=True http2=False
+2025-11-24 12:12:24.158 | DEBUG    | logging:callHandlers:1706 - load_verify_locations cafile='C:\\jasondev\\cameroon-voice-ai\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
+2025-11-24 12:12:24.740 | INFO     | src.services.botpress.client:__init__:30 - ✅ Botpress client initialized
+2025-11-24 12:12:24.740 | INFO     | src.core.dependencies:initialize_services:135 - ✅ All services ready
+2025-11-24 12:12:24.741 | INFO     | src.main:lifespan:26 - ✅ Ready!
+2025-11-24 12:12:24.741 | INFO     | logging:callHandlers:1706 - Application startup complete.
+2025-11-24 13:45:56.487 | INFO     | logging:callHandlers:1706 - Shutting down
+2025-11-24 13:45:56.605 | INFO     | logging:callHandlers:1706 - Waiting for application shutdown.
+2025-11-24 13:45:56.610 | INFO     | src.core.dependencies:cleanup_services:142 - 🛑 Shutting down services...
+2025-11-24 13:45:56.633 | INFO     | src.services.whisper.service:cleanup:213 - Whisper service cleaned up
+2025-11-24 13:45:56.661 | INFO     | src.services.llama.service:cleanup:138 - LLaMA cleaned up
+2025-11-24 13:45:56.662 | INFO     | src.core.dependencies:cleanup_services:153 - ✅ Cleanup complete
+2025-11-24 13:45:56.663 | INFO     | src.main:lifespan:31 - 👋 Stopped
+2025-11-24 13:45:56.666 | INFO     | logging:callHandlers:1706 - Application shutdown complete.
+2025-11-24 13:45:56.696 | INFO     | logging:callHandlers:1706 - Finished server process [33972]
+2025-11-24 13:46:12.281 | INFO     | src.main:lifespan:21 - 🚀 Starting Cameroon Voice AI
+2025-11-24 13:46:12.282 | INFO     | src.core.dependencies:initialize_services:121 - 🚀 Initializing services...
+2025-11-24 13:46:12.283 | INFO     | src.services.whisper.service:initialize:50 - Loading Whisper model...
+2025-11-24 13:46:12.292 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 24, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 125, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-24 13:46:13.177 | INFO     | src.services.whisper.service:_load_model_sync:80 - Whisper 'base' loaded on cpu
+2025-11-24 13:46:27.628 | INFO     | src.main:lifespan:21 - 🚀 Starting Cameroon Voice AI
+2025-11-24 13:46:27.629 | INFO     | src.core.dependencies:initialize_services:121 - 🚀 Initializing services...
+2025-11-24 13:46:27.629 | INFO     | src.services.whisper.service:initialize:50 - Loading Whisper model...
+2025-11-24 13:46:28.441 | INFO     | src.services.whisper.service:_load_model_sync:80 - Whisper 'base' loaded on cpu
+2025-11-24 13:46:28.442 | INFO     | src.services.whisper.service:initialize:58 - ✅ Whisper loaded in 0.81s
+2025-11-24 13:46:28.442 | INFO     | src.services.llama.service:initialize:32 - Loading LLaMA model...
+2025-11-24 13:46:28.448 | DEBUG    | logging:callHandlers:1706 - Starting new HTTPS connection (1): huggingface.co:443
+2025-11-24 13:46:30.406 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-11-24 13:46:30.757 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/config.json HTTP/1.1" 200 0
+2025-11-24 13:46:33.962 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/generation_config.json HTTP/1.1" 200 0
+2025-11-24 13:46:33.967 | INFO     | src.services.llama.service:initialize:39 - ✅ LLaMA loaded in 5.52s
+2025-11-24 13:46:33.968 | DEBUG    | logging:callHandlers:1706 - load_ssl_context verify=True cert=None trust_env=True http2=False
+2025-11-24 13:46:33.969 | DEBUG    | logging:callHandlers:1706 - load_verify_locations cafile='C:\\jasondev\\cameroon-voice-ai\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
+2025-11-24 13:46:34.585 | INFO     | src.services.botpress.client:__init__:30 - ✅ Botpress client initialized
+2025-11-24 13:46:34.585 | INFO     | src.core.dependencies:initialize_services:135 - ✅ All services ready
+2025-11-24 13:46:34.586 | INFO     | src.main:lifespan:26 - ✅ Ready!
+2025-11-24 13:46:34.587 | INFO     | logging:callHandlers:1706 - Application startup complete.
+2025-11-24 13:52:32.353 | INFO     | logging:callHandlers:1706 - Shutting down
+2025-11-24 13:52:32.460 | INFO     | logging:callHandlers:1706 - Waiting for application shutdown.
+2025-11-24 13:52:32.460 | INFO     | src.core.dependencies:cleanup_services:142 - 🛑 Shutting down services...
+2025-11-24 13:52:32.465 | INFO     | src.services.whisper.service:cleanup:213 - Whisper service cleaned up
+2025-11-24 13:52:32.474 | INFO     | src.services.llama.service:cleanup:138 - LLaMA cleaned up
+2025-11-24 13:52:32.475 | INFO     | src.core.dependencies:cleanup_services:153 - ✅ Cleanup complete
+2025-11-24 13:52:32.475 | INFO     | src.main:lifespan:31 - 👋 Stopped
+2025-11-24 13:52:32.476 | INFO     | logging:callHandlers:1706 - Application shutdown complete.
+2025-11-24 13:52:32.477 | INFO     | logging:callHandlers:1706 - Finished server process [2144]
+2025-11-24 13:52:46.647 | INFO     | src.main:lifespan:21 - 🚀 Starting Cameroon Voice AI
+2025-11-24 13:52:46.648 | INFO     | src.core.dependencies:initialize_services:121 - 🚀 Initializing services...
+2025-11-24 13:52:46.648 | INFO     | src.services.whisper.service:initialize:50 - Loading Whisper model...
+2025-11-24 13:52:46.656 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 24, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 125, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-24 13:52:47.448 | INFO     | src.services.whisper.service:_load_model_sync:80 - Whisper 'base' loaded on cpu
+2025-11-24 13:53:01.410 | INFO     | src.main:lifespan:21 - 🚀 Starting Cameroon Voice AI
+2025-11-24 13:53:01.412 | INFO     | src.core.dependencies:initialize_services:121 - 🚀 Initializing services...
+2025-11-24 13:53:01.413 | INFO     | src.services.whisper.service:initialize:50 - Loading Whisper model...
+2025-11-24 13:53:02.237 | INFO     | src.services.whisper.service:_load_model_sync:80 - Whisper 'base' loaded on cpu
+2025-11-24 13:53:02.238 | INFO     | src.services.whisper.service:initialize:58 - ✅ Whisper loaded in 0.83s
+2025-11-24 13:53:02.239 | INFO     | src.services.llama.service:initialize:32 - Loading LLaMA model...
+2025-11-24 13:53:02.244 | DEBUG    | logging:callHandlers:1706 - Starting new HTTPS connection (1): huggingface.co:443
+2025-11-24 13:53:03.405 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-11-24 13:53:03.790 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/config.json HTTP/1.1" 200 0
+2025-11-24 13:53:06.797 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/generation_config.json HTTP/1.1" 200 0
+2025-11-24 13:53:06.801 | INFO     | src.services.llama.service:initialize:39 - ✅ LLaMA loaded in 4.56s
+2025-11-24 13:53:06.802 | DEBUG    | logging:callHandlers:1706 - load_ssl_context verify=True cert=None trust_env=True http2=False
+2025-11-24 13:53:06.803 | DEBUG    | logging:callHandlers:1706 - load_verify_locations cafile='C:\\jasondev\\cameroon-voice-ai\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
+2025-11-24 13:53:07.412 | INFO     | src.services.botpress.client:__init__:30 - ✅ Botpress client initialized
+2025-11-24 13:53:07.412 | INFO     | src.core.dependencies:initialize_services:135 - ✅ All services ready
+2025-11-24 13:53:07.413 | INFO     | src.main:lifespan:26 - ✅ Ready!
+2025-11-24 13:53:07.413 | INFO     | logging:callHandlers:1706 - Application startup complete.
+2025-11-24 13:57:03.840 | INFO     | src.api.v1.endpoints.webhook:botpress_webhook_get:34 - 📨 GET request - ConvID: King, Text: "All good"
+2025-11-24 13:57:03.841 | INFO     | src.core.dependencies:get_redis:62 - ✅ Redis connected
+2025-11-24 13:57:07.950 | ERROR    | src.api.v1.endpoints.webhook:botpress_webhook_get:75 - Error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-11-24 13:57:07.951 | INFO     | logging:callHandlers:1706 - 2c0f:2a80:902:b008:47a2:43a4:4208:7a07:0 - "GET /api/v1/webhook/botpress?conversationId=King&text=%22All%20good%22 HTTP/1.1" 200
+2025-11-24 13:57:08.792 | INFO     | logging:callHandlers:1706 - 2c0f:2a80:902:b008:47a2:43a4:4208:7a07:0 - "GET /favicon.ico HTTP/1.1" 404
+2025-11-24 14:16:56.261 | INFO     | src.api.v1.endpoints.webhook:botpress_webhook_get:34 - 📨 GET request - ConvID: King, Text: "All good"
+2025-11-24 14:16:56.272 | INFO     | src.api.v1.endpoints.webhook:botpress_webhook_get:55 - 🤖 Generating response...
+2025-11-24 14:16:56.272 | INFO     | src.services.llama.service:generate_response:80 - Generating response...
+2025-11-24 14:18:37.943 | INFO     | src.api.v1.endpoints.webhook:botpress_webhook_get:62 - ✅ Response: "You are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person parachuting, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person, and you are a good person
+2025-11-24 14:18:37.947 | INFO     | logging:callHandlers:1706 - 2c0f:2a80:902:b008:47a2:43a4:4208:7a07:0 - "GET /api/v1/webhook/botpress?conversationId=King&text=%22All%20good%22 HTTP/1.1" 200
+2025-11-24 14:27:21.158 | INFO     | logging:callHandlers:1706 - Shutting down
+2025-11-24 14:27:21.265 | INFO     | logging:callHandlers:1706 - Waiting for application shutdown.
+2025-11-24 14:27:21.266 | INFO     | src.core.dependencies:cleanup_services:142 - 🛑 Shutting down services...
+2025-11-24 14:27:21.272 | INFO     | src.services.whisper.service:cleanup:213 - Whisper service cleaned up
+2025-11-24 14:27:21.287 | INFO     | src.services.llama.service:cleanup:138 - LLaMA cleaned up
+2025-11-24 14:27:21.288 | INFO     | src.core.dependencies:cleanup_services:153 - ✅ Cleanup complete
+2025-11-24 14:27:21.289 | INFO     | src.main:lifespan:31 - 👋 Stopped
+2025-11-24 14:27:21.290 | INFO     | logging:callHandlers:1706 - Application shutdown complete.
+2025-11-24 14:27:21.291 | INFO     | logging:callHandlers:1706 - Finished server process [34508]
+2025-11-24 14:27:36.477 | INFO     | src.main:lifespan:21 - 🚀 Starting Cameroon Voice AI
+2025-11-24 14:27:36.477 | INFO     | src.core.dependencies:initialize_services:121 - 🚀 Initializing services...
+2025-11-24 14:27:36.478 | INFO     | src.services.whisper.service:initialize:50 - Loading Whisper model...
+2025-11-24 14:27:36.486 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 24, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 125, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-24 14:27:37.432 | INFO     | src.services.whisper.service:_load_model_sync:80 - Whisper 'base' loaded on cpu
+2025-11-24 14:27:51.602 | INFO     | src.main:lifespan:21 - 🚀 Starting Cameroon Voice AI
+2025-11-24 14:27:51.603 | INFO     | src.core.dependencies:initialize_services:121 - 🚀 Initializing services...
+2025-11-24 14:27:51.603 | INFO     | src.services.whisper.service:initialize:50 - Loading Whisper model...
+2025-11-24 14:27:51.610 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 24, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 125, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-24 14:27:52.361 | INFO     | src.services.whisper.service:_load_model_sync:80 - Whisper 'base' loaded on cpu
+2025-11-24 14:28:06.841 | INFO     | src.main:lifespan:21 - 🚀 Starting Cameroon Voice AI
+2025-11-24 14:28:06.841 | INFO     | src.core.dependencies:initialize_services:121 - 🚀 Initializing services...
+2025-11-24 14:28:06.842 | INFO     | src.services.whisper.service:initialize:50 - Loading Whisper model...
+2025-11-24 14:28:07.599 | INFO     | src.services.whisper.service:_load_model_sync:80 - Whisper 'base' loaded on cpu
+2025-11-24 14:28:07.600 | INFO     | src.services.whisper.service:initialize:58 - ✅ Whisper loaded in 0.76s
+2025-11-24 14:28:07.600 | INFO     | src.services.llama.service:initialize:32 - Loading LLaMA model...
+2025-11-24 14:28:07.607 | DEBUG    | logging:callHandlers:1706 - Starting new HTTPS connection (1): huggingface.co:443
+2025-11-24 14:28:08.734 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/tokenizer_config.json HTTP/1.1" 200 0
+2025-11-24 14:28:09.104 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/config.json HTTP/1.1" 200 0
+2025-11-24 14:28:12.243 | DEBUG    | logging:callHandlers:1706 - https://huggingface.co:443 "HEAD /distilgpt2/resolve/main/generation_config.json HTTP/1.1" 200 0
+2025-11-24 14:28:12.248 | INFO     | src.services.llama.service:initialize:39 - ✅ LLaMA loaded in 4.65s
+2025-11-24 14:28:12.249 | DEBUG    | logging:callHandlers:1706 - load_ssl_context verify=True cert=None trust_env=True http2=False
+2025-11-24 14:28:12.250 | DEBUG    | logging:callHandlers:1706 - load_verify_locations cafile='C:\\jasondev\\cameroon-voice-ai\\.venv\\Lib\\site-packages\\certifi\\cacert.pem'
+2025-11-24 14:28:12.890 | INFO     | src.services.botpress.client:__init__:30 - ✅ Botpress client initialized
+2025-11-24 14:28:12.890 | INFO     | src.core.dependencies:initialize_services:135 - ✅ All services ready
+2025-11-24 14:28:12.891 | INFO     | src.main:lifespan:26 - ✅ Ready!
+2025-11-24 14:28:12.891 | INFO     | logging:callHandlers:1706 - Application startup complete.
+2025-11-24 14:39:07.966 | INFO     | src.api.v1.endpoints.webhook:botpress_webhook_get:34 - 📨 GET request - ConvID: King, Text: "All good"
+2025-11-24 14:39:07.967 | INFO     | src.core.dependencies:get_redis:62 - ✅ Redis connected
+2025-11-24 14:39:07.978 | INFO     | src.api.v1.endpoints.webhook:botpress_webhook_get:55 - 🤖 Generating response...
+2025-11-24 14:39:07.979 | INFO     | src.services.llama.service:generate_response:80 - Generating response...
+2025-11-24 14:39:18.612 | INFO     | src.api.v1.endpoints.webhook:botpress_webhook_get:62 - ✅ Response: The person you have is the manager of your company, where we will work with them to find solutions that solve problems like this:
+2025-11-24 14:39:18.615 | INFO     | logging:callHandlers:1706 - 149.88.103.51:0 - "GET /api/v1/webhook/botpress?conversationId=King&text=%22All%20good%22 HTTP/1.1" 200

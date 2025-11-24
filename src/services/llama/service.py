@@ -113,6 +113,8 @@ class LlamaService:
                 temperature=settings.LLAMA_TEMPERATURE,
                 top_p=settings.LLAMA_TOP_P,
                 do_sample=True,
+                repetition_penalty=2.0,
+                no_repeat_ngram_size=3,
                 pad_token_id=self.tokenizer.eos_token_id,
             )
         

@@ -21,7 +21,7 @@ torchaudio==2.9.0
 transformers==4.37.0
 accelerate==0.26.1
 peft==0.8.2
-bitsandbytes==0.41.3; platform_system != "Windows"
+#bitsandbytes==0.41.3; platform_system != "Windows"
 
 # Whisper
 openai-whisper==20231117
