@@ -52,8 +52,11 @@ class WhisperService:
         
         # Load model in thread pool (CPU/GPU intensive)
         loop = asyncio.get_event_loop()
-        await loop.run_in_executor(None, self._load_model_sync)
-        
+        try:
+            await loop.run_in_executor(None, self._load_model_sync)
+        except Exception as e:
+            logger.error(f"Error loading Whisper model: {e}")
+            raise
         load_time = time.time() - start_time
         logger.info(f"✅ Whisper loaded in {load_time:.2f}s")
         self._is_ready = True
@@ -69,7 +72,7 @@ class WhisperService:
         - medium: 769M params, ~5GB RAM, very accurate
         - large: 1550M params, ~10GB RAM, best accuracy
         """
-        model_size = "base"  # Start with base for prototype
+        model_size = "small"  # Start with base for prototype
         
         self.model = whisper.load_model(
             model_size,

@@ -454,3 +454,1050 @@ Traceback (most recent call last):
     await loop.run_in_executor(None, self._load_model_sync)
 asyncio.exceptions.CancelledError
 
+2025-11-24 16:06:09.384 | ERROR    | src.api.v1.endpoints.webhook:botpress_webhook_get:75 - Error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-11-24 16:23:09.972 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 24, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 125, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-24 16:23:24.194 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 24, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 125, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-24 16:23:38.197 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 24, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 125, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-24 16:29:03.086 | ERROR    | src.services.botpress.client:send_text:56 - Failed to send text: Client error '400 Bad Request' for url 'https://api.botpress.cloud/v1/chat/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-11-24 16:29:03.086 | ERROR    | src.api.v1.endpoints.webhook:process_text_message:162 - Error processing text: Failed to send message: Client error '400 Bad Request' for url 'https://api.botpress.cloud/v1/chat/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-11-24 16:29:03.325 | ERROR    | src.services.botpress.client:send_text:56 - Failed to send text: Client error '400 Bad Request' for url 'https://api.botpress.cloud/v1/chat/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-11-24 16:32:56.096 | ERROR    | src.services.botpress.client:send_text:56 - Failed to send text: Client error '400 Bad Request' for url 'https://api.botpress.cloud/v1/chat/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-11-24 16:32:56.096 | ERROR    | src.api.v1.endpoints.webhook:process_text_message:161 - Error processing text: Failed to send message: Client error '400 Bad Request' for url 'https://api.botpress.cloud/v1/chat/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-11-24 16:32:56.345 | ERROR    | src.services.botpress.client:send_text:56 - Failed to send text: Client error '400 Bad Request' for url 'https://api.botpress.cloud/v1/chat/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-11-24 16:33:34.284 | ERROR    | src.services.botpress.client:send_text:56 - Failed to send text: Client error '400 Bad Request' for url 'https://api.botpress.cloud/v1/chat/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-11-24 16:33:34.285 | ERROR    | src.api.v1.endpoints.webhook:process_text_message:161 - Error processing text: Failed to send message: Client error '400 Bad Request' for url 'https://api.botpress.cloud/v1/chat/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-11-24 16:33:34.547 | ERROR    | src.services.botpress.client:send_text:56 - Failed to send text: Client error '400 Bad Request' for url 'https://api.botpress.cloud/v1/chat/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-11-24 16:36:23.229 | ERROR    | src.services.botpress.client:send_text:56 - Failed to send text: Client error '405 Method Not Allowed' for url 'https://api.botpress.cloud/v1/chat/conversations/convo-5/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/405
+2025-11-24 16:36:23.229 | ERROR    | src.api.v1.endpoints.webhook:process_text_message:161 - Error processing text: Failed to send message: Client error '405 Method Not Allowed' for url 'https://api.botpress.cloud/v1/chat/conversations/convo-5/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/405
+2025-11-24 16:36:23.479 | ERROR    | src.services.botpress.client:send_text:56 - Failed to send text: Client error '405 Method Not Allowed' for url 'https://api.botpress.cloud/v1/chat/conversations/convo-5/messages'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/405
+2025-11-24 18:17:24.514 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 779, in _error_catcher
+    yield
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 925, in _raw_read
+    raise IncompleteRead(self._fp_bytes_read, self.length_remaining)
+urllib3.exceptions.IncompleteRead: IncompleteRead(714075138 bytes read, 1153853980 more expected)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\requests\models.py", line 820, in generate
+    yield from self.raw.stream(chunk_size, decode_content=True)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 1091, in stream
+    data = self.read(amt=amt, decode_content=decode_content)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 1008, in read
+    data = self._raw_read(amt)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 903, in _raw_read
+    with self._error_catcher():
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 803, in _error_catcher
+    raise ProtocolError(arg, e) from e
+urllib3.exceptions.ProtocolError: ('Connection broken: IncompleteRead(714075138 bytes read, 1153853980 more expected)', IncompleteRead(714075138 bytes read, 1153853980 more expected))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 24, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 131, in initialize_services
+    await _tts.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\tts\service.py", line 37, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\services\tts\service.py", line 46, in _load_model_sync
+    self.model = TTS(model_name)
+                 ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\api.py", line 74, in __init__
+    self.load_tts_model_by_name(model_name, gpu)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\api.py", line 171, in load_tts_model_by_name
+    model_path, config_path, vocoder_path, vocoder_config_path, model_dir = self.download_model_by_name(
+                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\api.py", line 129, in download_model_by_name
+    model_path, config_path, model_item = self.manager.download_model(model_name)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 400, in download_model
+    self.create_dir_and_download_model(model_name, model_item, output_path)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 352, in create_dir_and_download_model
+    raise e
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 347, in create_dir_and_download_model
+    self._download_hf_model(model_item, output_path)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 237, in _download_hf_model
+    self._download_model_files(model_item["hf_url"], output_path, self.progress_bar)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 609, in _download_model_files
+    for data in r.iter_content(block_size):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\requests\models.py", line 822, in generate
+    raise ChunkedEncodingError(e)
+requests.exceptions.ChunkedEncodingError: ('Connection broken: IncompleteRead(714075138 bytes read, 1153853980 more expected)', IncompleteRead(714075138 bytes read, 1153853980 more expected))
+
+2025-11-24 18:17:24.522 | ERROR    | logging:callHandlers:1706 - Application startup failed. Exiting.
+2025-11-24 21:26:30.163 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-24 22:38:48.578 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 779, in _error_catcher
+    yield
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 925, in _raw_read
+    raise IncompleteRead(self._fp_bytes_read, self.length_remaining)
+urllib3.exceptions.IncompleteRead: IncompleteRead(1745831174 bytes read, 122097944 more expected)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\requests\models.py", line 820, in generate
+    yield from self.raw.stream(chunk_size, decode_content=True)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 1091, in stream
+    data = self.read(amt=amt, decode_content=decode_content)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 1008, in read
+    data = self._raw_read(amt)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 903, in _raw_read
+    with self._error_catcher():
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\urllib3\response.py", line 803, in _error_catcher
+    raise ProtocolError(arg, e) from e
+urllib3.exceptions.ProtocolError: ('Connection broken: IncompleteRead(1745831174 bytes read, 122097944 more expected)', IncompleteRead(1745831174 bytes read, 122097944 more expected))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 165, in initialize_services
+    await _tts.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\tts\service.py", line 37, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\services\tts\service.py", line 46, in _load_model_sync
+    self.model = TTS(model_name)
+                 ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\api.py", line 74, in __init__
+    self.load_tts_model_by_name(model_name, gpu)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\api.py", line 171, in load_tts_model_by_name
+    model_path, config_path, vocoder_path, vocoder_config_path, model_dir = self.download_model_by_name(
+                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\api.py", line 129, in download_model_by_name
+    model_path, config_path, model_item = self.manager.download_model(model_name)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 400, in download_model
+    self.create_dir_and_download_model(model_name, model_item, output_path)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 352, in create_dir_and_download_model
+    raise e
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 347, in create_dir_and_download_model
+    self._download_hf_model(model_item, output_path)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 237, in _download_hf_model
+    self._download_model_files(model_item["hf_url"], output_path, self.progress_bar)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 609, in _download_model_files
+    for data in r.iter_content(block_size):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\requests\models.py", line 822, in generate
+    raise ChunkedEncodingError(e)
+requests.exceptions.ChunkedEncodingError: ('Connection broken: IncompleteRead(1745831174 bytes read, 122097944 more expected)', IncompleteRead(1745831174 bytes read, 122097944 more expected))
+
+2025-11-24 22:38:48.582 | ERROR    | logging:callHandlers:1706 - Application startup failed. Exiting.
+2025-11-24 22:48:43.003 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 165, in initialize_services
+    #     await _tts.initialize()
+    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\services\tts\service.py", line 37, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\services\tts\service.py", line 46, in _load_model_sync
+    self.model = TTS(model_name)
+                 ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\api.py", line 74, in __init__
+    self.load_tts_model_by_name(model_name, gpu)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\api.py", line 171, in load_tts_model_by_name
+    model_path, config_path, vocoder_path, vocoder_config_path, model_dir = self.download_model_by_name(
+                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\api.py", line 129, in download_model_by_name
+    model_path, config_path, model_item = self.manager.download_model(model_name)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 411, in download_model
+    self.create_dir_and_download_model(model_name, model_item, output_path)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 337, in create_dir_and_download_model
+    if not self.ask_tos(output_path):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\TTS\utils\manage.py", line 316, in ask_tos
+    answer = input(" | | > ")
+             ^^^^^^^^^^^^^^^^
+EOFError
+
+2025-11-24 22:48:43.005 | ERROR    | logging:callHandlers:1706 - Application startup failed. Exiting.
+2025-11-24 22:48:56.918 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-24 22:49:12.192 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 171, in initialize_services
+    await _intent_classifier.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\nlu\intent_classifier.py", line 83, in initialize
+    self.tokenizer = CamembertTokenizer.from_pretrained("camembert-base")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\transformers\utils\import_utils.py", line 1304, in __getattribute__
+    requires_backends(cls, cls._backends)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\transformers\utils\import_utils.py", line 1292, in requires_backends
+    raise ImportError("".join(failed))
+ImportError: 
+CamembertTokenizer requires the SentencePiece library but it was not found in your environment. Checkout the instructions on the
+installation page of its repo: https://github.com/google/sentencepiece#installation and follow the ones
+that match your environment. Please note that you may need to restart your runtime after installation.
+
+
+2025-11-24 22:49:12.193 | ERROR    | logging:callHandlers:1706 - Application startup failed. Exiting.
+2025-11-24 23:14:32.388 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 177, in initialize_services
+    _botpress = BotpressClient()
+                ^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\services\botpress\client.py", line 13, in __init__
+    self.token = settings.BOTPRESS_TOKEN
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\pydantic\main.py", line 761, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'Settings' object has no attribute 'BOTPRESS_TOKEN'
+
+2025-11-24 23:14:32.390 | ERROR    | logging:callHandlers:1706 - Application startup failed. Exiting.
+2025-11-24 23:24:07.205 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-24 23:57:00.497 | ERROR    | src.services.banking.orchestrator:process_command:113 - Error in banking handler: %s
+2025-11-24 23:57:00.503 | ERROR    | src.services.banking.audit:log_error:170 - ❌ Audit: Error logged - %s - %s
+2025-11-24 23:57:04.546 | ERROR    | src.api.v1.endpoints.webhook:botpress_webhook_get:95 - Error in GET /botpress: %s
+2025-11-25 00:04:16.658 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-25 00:04:31.470 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-25 00:12:03.937 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-25 00:12:19.976 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-25 00:13:49.999 | ERROR    | src.api.v1.endpoints.webhook:dev_voice_test:290 - Dev voice test error: [WinError 2] The system cannot find the file specified
+2025-11-25 00:37:06.533 | ERROR    | src.api.v1.endpoints.webhook:dev_voice_test:290 - Dev voice test error: object tuple can't be used in 'await' expression
+2025-11-25 00:42:30.247 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-25 00:42:45.553 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-25 00:45:57.084 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-25 01:17:03.466 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 74, in _load_model_sync
+    self.model = whisper.load_model(
+                 ^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\whisper\__init__.py", line 133, in load_model
+    checkpoint_file = _download(_MODELS[name], download_root, in_memory)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\whisper\__init__.py", line 87, in _download
+    raise RuntimeError(
+RuntimeError: Model has been downloaded but the SHA256 checksum does not not match. Please retry loading the model.
+
+2025-11-25 01:17:03.477 | ERROR    | logging:callHandlers:1706 - Application startup failed. Exiting.
+2025-11-25 01:28:12.769 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 55, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 74, in _load_model_sync
+    self.model = whisper.load_model(
+                 ^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\whisper\__init__.py", line 133, in load_model
+    checkpoint_file = _download(_MODELS[name], download_root, in_memory)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\whisper\__init__.py", line 87, in _download
+    raise RuntimeError(
+RuntimeError: Model has been downloaded but the SHA256 checksum does not not match. Please retry loading the model.
+
+2025-11-25 01:28:12.774 | ERROR    | logging:callHandlers:1706 - Application startup failed. Exiting.
+2025-11-25 07:53:30.299 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 747, in lifespan
+    await receive()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2025-11-25 07:55:25.997 | ERROR    | src.api.v1.endpoints.webhook:dev_voice_test:291 - Dev voice test error: Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).
+2025-11-25 08:23:28.521 | ERROR    | src.api.v1.endpoints.webhook:dev_voice_test:367 - Dev voice test error: Preprocessing failed: 
+2025-11-25 08:32:16.322 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 56, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-25 08:32:32.734 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 56, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-25 08:51:58.601 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 56, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-25 08:52:34.006 | ERROR    | src.api.v1.endpoints.webhook:dev_voice_test:431 - Dev voice test error: type object 're' has no attribute 'search'
+2025-11-25 09:00:56.116 | ERROR    | logging:callHandlers:1706 - Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 79, in serve
+    await self.startup(sockets=sockets)
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\server.py", line 90, in startup
+    await self.lifespan.startup()
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 54, in startup
+    await self.startup_event.wait()
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\jasondev\cameroon-voice-ai\.venv\Lib\site-packages\starlette\routing.py", line 738, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "C:\Users\Christian VR\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\jasondev\cameroon-voice-ai\src\main.py", line 29, in lifespan
+    await initialize_services()
+  File "C:\jasondev\cameroon-voice-ai\src\core\dependencies.py", line 161, in initialize_services
+    await _whisper.initialize()
+  File "C:\jasondev\cameroon-voice-ai\src\services\whisper\service.py", line 56, in initialize
+    await loop.run_in_executor(None, self._load_model_sync)
+asyncio.exceptions.CancelledError
+
+2025-11-25 09:05:10.147 | ERROR    | src.api.v1.endpoints.webhook:dev_voice_test:431 - Dev voice test error: 'ZeroShotIntentClassifier' object has no attribute '_encode'
+2025-11-25 09:06:52.100 | ERROR    | src.api.v1.endpoints.webhook:dev_voice_test:431 - Dev voice test error: 'ZeroShotIntentClassifier' object has no attribute '_encode'

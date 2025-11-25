@@ -1,6 +1,6 @@
 # src/main.py
 """
-FastAPI app
+FastAPI app entrypoint
 """
 from contextlib import asynccontextmanager
 
@@ -9,24 +9,29 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.core.config import settings
 from src.core.logging import setup_logging, logger
-from src.core.dependencies import initialize_services, cleanup_services
+from src.core.dependencies import (
+    initialize_services,
+    cleanup_services,
+    get_whisper_service,
+    get_intent_classifier,
+)
 from src.api.v1.router import api_router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Startup and shutdown"""
-    
+    """Startup and shutdown lifecycle"""
+
     setup_logging()
     logger.info(f"🚀 Starting {settings.APP_NAME}")
-    
-    # Load AI models
+
+    # Load models and services (Whisper, TTS, NLU, Botpress, Redis)
     await initialize_services()
-    
+
     logger.info("✅ Ready!")
-    
+
     yield
-    
+
     await cleanup_services()
     logger.info("👋 Stopped")
 
@@ -54,11 +59,11 @@ async def root():
 
 @app.get("/health")
 async def health():
-    from src.core.dependencies import get_llama_service
-    
-    llama = get_llama_service()
-    
+    whisper = get_whisper_service()
+    intent_classifier = get_intent_classifier()
+
     return {
         "status": "healthy",
-        "llama_ready": llama.is_ready(),
+        "whisper_ready": whisper.is_ready(),
+        "nlu_ready": intent_classifier.is_ready(),
     }

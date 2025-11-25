@@ -42,7 +42,7 @@ class LlamaService:
     def _load_model_sync(self) -> None:
         """Load model"""
         
-        model_name = "distilgpt2"
+        model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
         
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.tokenizer.pad_token = self.tokenizer.eos_token
