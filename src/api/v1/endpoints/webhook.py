@@ -535,7 +535,7 @@ async def process_audio_with_nlu(conversation_id: str, audio_url: str):
             await botpress.send_text(conversation_id, msg)
             return
 
-        # 3) Transcribe with Whisper
+        # 3) Transcribe with Whisper ##instead transcribe with another service 
         logger.info("🎙️ Transcribing...")
         transcription, detected_language, stt_confidence = await whisper.transcribe(
             preprocessed_path
@@ -610,7 +610,7 @@ async def process_audio_with_nlu(conversation_id: str, audio_url: str):
         ]:
             # fallback for now
             language_for_tts = CameroonLanguage.FRENCH
-
+        ## replace with okoro external service to generate voice and return the path
         logger.info(f"🔊 Generating TTS in {language_for_tts}...")
         tts_audio_path = await tts.synthesize(
             response_text,
