@@ -9,6 +9,7 @@ from app.config import settings
 
 class Intent(Enum):
     ACCOUNT_CREATION = "account_creation"
+    VIEW_ACCOUNT = "view_account"  # NEW
     WITHDRAWAL = "withdrawal"
     TOPUP = "topup"
     BALANCE_INQUIRY = "balance_inquiry"
@@ -38,6 +39,19 @@ class IntentClassifier:
                     'sign up', 'register', 'want account', 'need account',
                     'get account', 'make account', 'start account',
                     'create an account', 'open an account', 'i want to register'
+                ]
+            },
+            Intent.VIEW_ACCOUNT: {  # NEW
+                'keywords': [
+                    'view', 'show', 'see', 'check', 'display', 'look',
+                    'my account', 'account info', 'account details', 'profile'
+                ],
+                'context': ['account', 'profile', 'info', 'information', 'details', 'my'],
+                'phrases': [
+                    'view account', 'show account', 'my account', 'account details',
+                    'account info', 'account information', 'see my account',
+                    'check my account', 'view my profile', 'show my profile',
+                    'what is my account', 'display account', 'account status', 'View my details'
                 ]
             },
             Intent.WITHDRAWAL: {
@@ -83,11 +97,12 @@ class IntentClassifier:
                     'history', 'transactions', 'statement', 'activity',
                     'records', 'past', 'previous', 'recent', 'historique'
                 ],
-                'context': ['transaction', 'payment', 'transfer'],
+                'context': ['transaction', 'payment', 'transfer', 'account'],
                 'phrases': [
                     'transaction history', 'my transactions', 'past transactions',
                     'recent activity', 'account history', 'show transactions',
-                    'view history', 'statement', 'my history', 'show history'
+                    'view history', 'statement', 'my history', 'show history',
+                    'get transactions', 'voir mes transactions', 'historique de transactions'
                 ]
             },
             Intent.GREETING: {

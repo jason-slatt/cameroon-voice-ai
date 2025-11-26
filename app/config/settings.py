@@ -16,12 +16,18 @@ class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
     PORT: int = 8000
     
+    # Logging
+    LOG_LEVEL: str = "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    LOG_TO_FILE: bool = True
+    LOG_TO_CONSOLE: bool = True
+    LOG_DIR: str = "logs"
+    
     # Company Info
     COMPANY_NAME: str = "BAFOKA"
     CURRENCY: str = "XAF"
     CURRENCY_SYMBOL: str = "FCFA"
     
-    # Transaction Limits
+    # Transaction Limits (in XAF)
     WITHDRAWAL_MIN: float = 500.0
     WITHDRAWAL_MAX: float = 500000.0
     WITHDRAWAL_DAILY_LIMIT: float = 1000000.0
@@ -46,7 +52,7 @@ class Settings(BaseSettings):
     TTS_ENABLED: bool = True
     TTS_EXAGGERATION: float = 0.5
     TTS_CFG_WEIGHT: float = 0.5
-    TTS_VOICE_PATH: Optional[str] = None  # Path to voice sample for cloning
+    TTS_VOICE_PATH: Optional[str] = None
     
     # Audio Storage
     AUDIO_STORAGE_PATH: str = "audio_files"
@@ -57,10 +63,6 @@ class Settings(BaseSettings):
     # Storage
     REDIS_URL: Optional[str] = None
     CONVERSATION_TTL: int = 3600
-    
-    # Audio Processing
-    AUDIO_SAMPLE_RATE: int = 16000
-    SUPPORTED_AUDIO_FORMATS: List[str] = ["wav", "mp3", "ogg", "oga", "webm"]
     
     class Config:
         env_file = ".env"

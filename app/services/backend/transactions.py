@@ -204,7 +204,74 @@ class TransactionService:
                     description="Mock withdrawal",
                 ),
             ]
+    async def get_dashboard_transactions(
+        self,
+        phone_number: str,
+        limit: int = 5,
+    ) -> List[Transaction]:
+        """
+        Get transactions using GET /dashboard/transactions.
 
+        Swagger:
+        GET /dashboard/transactions
+        "Obtenir les transactions – Retourne la liste des transactions enregistrées."
+
+        If the backend expects a phoneNumber filter, we pass it as a query param.
+        Adjust param name if Swagger shows something else.
+        """
+        logger.info(f"Fetching dashboard transactions for {phone_number}")
+
+        try:
+            # Build query parameters
+            params = {"phoneNumber": phone_number}
+
+            raw = await self.client.get(
+                "/dashboard/transactions",
+                params=params,
+            )
+
+            logger.info(f"/dashboard/transactions response: {raw}")
+
+            # raw can be:
+            # - a list of transactions
+            # - or an object with a 'transactions' field
+            if isinstance(raw, list):
+                items = raw
+            elif isinstance(raw, dict) and "transactions" in raw:
+                items = raw["transactions"]
+            else:
+                # Unexpected shape
+                logger.warning(f"Unexpected /dashboard/transactions response shape: {type(raw)}")
+                items = []
+
+            transactions: List[Transaction] = []
+
+            for t in items:
+                try:
+                    transactions.append(Transaction(
+                        id=str(t.get("id", "")),
+                        account_id=t.get("accountId"),
+                        type=TransactionType(t.get("type", "DEPOSIT")),
+                        amount=float(t.get("amount", 0.0)),
+                        currency=t.get("currency", "XAF"),
+                        status=TransactionStatus(t.get("status", "COMPLETED")),
+                        description=t.get("description"),
+                        reference=t.get("reference"),
+                        created_at=datetime.fromisoformat(t["createdAt"]) if t.get("createdAt") else None,
+                    ))
+                except Exception as e:
+                    logger.warning(f"Error parsing transaction item {t}: {e}")
+                    continue
+
+            return transactions
+
+        except BackendAPIError as e:
+            logger.error(f"Backend error fetching dashboard transactions: {e}")
+            return []
+
+        except Exception as e:
+            logger.error(f"Failed to fetch dashboard transactions: {e}")
+            return []
 
 # Singleton instance
 transaction_service = TransactionService()

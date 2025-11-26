@@ -17,8 +17,15 @@ logger = get_logger(__name__)
 async def lifespan(app: FastAPI):
     """Application lifespan manager"""
     # Startup
+    setup_logging(
+        log_dir=settings.LOG_DIR,
+        log_to_file=settings.LOG_TO_FILE,
+        log_to_console=settings.LOG_TO_CONSOLE,
+    )
+    
     logger.info(f"Starting {settings.APP_NAME} v{settings.APP_VERSION}")
-    setup_logging()
+    logger.info(f"Environment: {'DEBUG' if settings.DEBUG else 'PRODUCTION'}")
+    logger.info(f"Backend: {settings.BACKEND_BASE_URL}")
     
     # Create audio storage directory
     audio_path = Path(settings.AUDIO_STORAGE_PATH)
@@ -31,6 +38,7 @@ async def lifespan(app: FastAPI):
     # Shutdown
     logger.info("Shutting down...")
     await backend_client.close()
+    logger.info("Application stopped")
 
 
 app = FastAPI(
@@ -43,7 +51,7 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure appropriately for production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -51,8 +59,6 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(api_router, prefix="/api/v1")
-
-# Include audio serving routes
 app.include_router(audio_api_router, prefix="/audio", tags=["Audio"])
 
 

@@ -7,10 +7,11 @@ SYSTEM_PROMPT = f"""You are a friendly and professional customer support AI assi
 
 YOUR ONLY RESPONSIBILITIES:
 1. Account Creation - Help users create new accounts
-2. Withdrawals - Assist with withdrawal requests (min {settings.WITHDRAWAL_MIN:.0f} {settings.CURRENCY}, max {settings.WITHDRAWAL_MAX:.0f} {settings.CURRENCY})
-3. Top-ups/Deposits - Help users add funds (min {settings.TOPUP_MIN:.0f} {settings.CURRENCY}, max {settings.TOPUP_MAX:.0f} {settings.CURRENCY})
-4. Balance Inquiries - Check account balance
-5. Transaction History - View past transactions
+2. View Account - Show account details and information
+3. Withdrawals - Assist with withdrawal requests
+4. Top-ups/Deposits - Help users add funds
+5. Balance Inquiries - Check account balance
+6. Transaction History - View past transactions
 
 RULES:
 - Keep responses under {settings.MAX_RESPONSE_WORDS} words
@@ -22,11 +23,38 @@ RULES:
 Remember: Guide the user step by step through natural conversation."""
 
 
+# Available groupements
+GROUPEMENTS = [
+    {"id": 1, "name": "Batoufam", "token": "MBIP TSWEFAP"},
+    {"id": 2, "name": "Fondjomekwet", "token": "MBAM"},
+    {"id": 3, "name": "Bameka", "token": "MUNKAP"},
+]
+
+
 FLOW_PROMPTS = {
     "account_creation": {
         "start": f"Welcome to {settings.COMPANY_NAME}! I'll help you create an account. What is your full name?",
-        "confirm_name": "Nice to meet you, {name}! Should I create your account with this name? Say 'yes' to confirm or 'no' to change it.",
-        "success": "Congratulations {name}! Your account has been created successfully. Your account number is {account_id}. Is there anything else I can help with?",
+        "ask_age": "Thank you, {name}! How old are you?",
+        "ask_sex": "Got it! Are you male or female?",
+        "ask_groupement": (
+            "Almost done! Which groupement are you from?\n"
+            "1. Batoufam (MBIP TSWEFAP)\n"
+            "2. Fondjomekwet (MBAM)\n"
+            "3. Bameka (MUNKAP)\n\n"
+            "Please say the number or name."
+        ),
+        "confirm": (
+            "Let me confirm your information:\n"
+            "• Name: {name}\n"
+            "• Age: {age}\n"
+            "• Sex: {sex}\n"
+            "• Groupement: {groupement_name}\n\n"
+            "Is this correct? Say 'yes' to confirm or 'no' to make changes."
+        ),
+        "success": (
+            "Congratulations {name}! Your account has been created successfully. "
+            "Your account details have been registered. Is there anything else I can help with?"
+        ),
         "error": "I'm sorry, there was an issue creating your account. Please try again later.",
     },
     "withdrawal": {
