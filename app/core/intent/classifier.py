@@ -4,7 +4,6 @@ from enum import Enum
 from typing import Tuple
 import re
 
-from app.config import settings
 
 
 class Intent(Enum):
@@ -12,6 +11,7 @@ class Intent(Enum):
     VIEW_ACCOUNT = "view_account"
     WITHDRAWAL = "withdrawal"
     TOPUP = "topup"
+    TRANSFER = "transfer"
     BALANCE_INQUIRY = "balance_inquiry"
     TRANSACTION_HISTORY = "transaction_history"
     GREETING = "greeting"
@@ -20,219 +20,344 @@ class Intent(Enum):
     CONFIRMATION = "confirmation"
     DENIAL = "denial"
     OFF_TOPIC = "off_topic"
-    TRANSFER = "transfer"
 
 
 class IntentClassifier:
     """Classifies user intent for customer support interactions."""
-    
+
     def __init__(self):
         self.intent_patterns = {
             Intent.ACCOUNT_CREATION: {
-                'keywords': [
-                    'create', 'open', 'new', 'register', 'sign up', 'signup',
-                    'setup', 'set up', 'make', 'start', 'begin',
-                    'créer', 'ouvrir'
-                ],
-                'context': ['account', 'profile', 'registration', 'member', 'compte'],
-                'phrases': [
-                    'create account', 'open account', 'new account',
-                    'sign up', 'register', 'want account', 'need account',
-                    'get account', 'make account', 'start account',
-                    'create an account', 'open an account', 'i want to register','i would like to create an account' 
-                ]
-            },
-            Intent.VIEW_ACCOUNT: {
-                'keywords': [
-                    'view', 'show', 'see', 'check', 'display', 'look',
-                    'my account', 'account info', 'account details', 'profile',
-                    'mon compte', 'voir', 'afficher'
-                ],
-                'context': ['account', 'profile', 'info', 'information', 'details', 'my', 'compte'],
-                'phrases': [
-                    'view account', 'show account', 'my account', 'account details',
-                    'account info', 'account information', 'see my account',
-                    'check my account', 'view my profile', 'show my profile',
-                    'what is my account', 'display account', 'account status',
-                    'view my details', 'voir mon compte', 'afficher mon compte'
-                ]
-            },
-            Intent.WITHDRAWAL: {
-                'keywords': [
-                    'withdraw', 'withdrawal', 'take out', 'cash out',
-                    'pull out', 'get money', 'remove', 'transfer out',
-                    'retrait', 'retirer'
-                ],
-                'context': ['money', 'cash', 'funds', 'amount', 'xaf', 'fcfa', 'argent'],
-                'phrases': [
-                    'withdraw money', 'make withdrawal', 'cash out',
-                    'take out money', 'get my money', 'withdraw funds',
-                    'make a withdrawal', 'want to withdraw', 'i want to withdraw',
-                    'faire un retrait', 'retirer de l\'argent'
-                ]
-            },
-            Intent.TOPUP: {
-                'keywords': [
-                    'top up', 'topup', 'top-up', 'deposit', 'add', 'load',
-                    'fund', 'put in', 'transfer in', 'recharge', 'credit', 'depot',
-                    'déposer', 'recharger'
-                ],
-                'context': ['money', 'funds', 'balance', 'account', 'cash', 'amount', 'xaf', 'fcfa', 'compte'],
-                'phrases': [
-                    'add money', 'deposit money', 'top up', 'top-up', 'topup',
-                    'add funds', 'load money', 'put money', 'fund account',
-                    'add to balance', 'make a deposit', 'want to deposit',
-                    'i want to deposit', 'i want to top up', 'recharge account',
-                    'faire un dépôt', 'déposer de l\'argent', 'recharger mon compte'
-                ]
-            },
-            Intent.BALANCE_INQUIRY: {
-                'keywords': [
-                    'balance', 'how much', 'check', 'available',
-                    'status', 'amount', 'total', 'solde'
-                ],
-                'context': ['account', 'money', 'have', 'funds', 'my', 'wallet', 'compte'],
-                'phrases': [
-                    'check balance', 'my balance', 'account balance',
-                    'how much money', 'how much do i have', 'available balance',
-                    'what is my balance', 'show balance', 'check my balance',
-                    'what do i have', 'my account balance',
-                    'quel est mon solde', 'mon solde', 'solde du compte', 'solde du wallet'
-                ]
-            },
-            Intent.TRANSACTION_HISTORY: {
-                'keywords': [
-                    'history', 'transactions', 'statement', 'activity',
-                    'records', 'past', 'previous', 'recent', 'historique'
-                ],
-                'context': ['transaction', 'payment', 'transfer', 'account', 'compte'],
-                'phrases': [
-                    'transaction history', 'my transactions', 'past transactions',
-                    'recent activity', 'account history', 'show transactions',
-                    'view history', 'statement', 'my history', 'show history',
-                    'get transactions', 'voir mes transactions', 'historique de transactions'
-                ]
-            },
-            Intent.GREETING: {
-                'keywords': [
-                    'hello', 'hi', 'hey', 'good morning', 'good afternoon',
-                    'good evening', 'greetings', 'howdy', 'bonjour', 'salut'
-                ],
-                'context': [],
-                'phrases': ['hello there', 'hi there', 'hey there']
-            },
-            Intent.GOODBYE: {
-                'keywords': [
-                    'bye', 'goodbye', 'see you', 'thanks', 'thank you',
-                    'done', 'exit', 'quit', 'finished', 'merci', 'au revoir'
-                ],
-                'context': [],
-                'phrases': [
-                    'thank you', 'thanks bye', 'goodbye', 'that is all',
-                    'i\'m done', 'no more', 'nothing else', 'that\'s all'
-                ]
-            },
-            Intent.CONFIRMATION: {
-                'keywords': [
-                    'yes', 'yeah', 'yep', 'correct', 'confirm', 'sure',
-                    'ok', 'okay', 'right', 'exactly', 'affirmative',
-                    'proceed', 'oui', 'ouais', 'd\'accord'
-                ],
-                'context': [],
-                'phrases': ['that\'s right', 'that is correct', 'go ahead', 'sounds good']
-            },
-            Intent.DENIAL: {
-                'keywords': [
-                    'no', 'nope', 'cancel', 'stop', 'wrong', 'incorrect',
-                    'nevermind', 'never mind', 'forget it', 'non', 'pas du tout'
-                ],
-                'context': [],
-                'phrases': ['no thanks', 'cancel that', 'forget it', 'not right']
-            },
-            Intent.TRANSFER: {
                 "keywords": [
-                    "send", "send money", "transfer", "send cash", "pay",
-                    "payer", "envoyer", "envoyer de l'argent", "transfert",
-                    "remit", "remittance", "p2p"
+                    # EN
+                    "create", "open", "new", "register", "sign up", "signup",
+                    "set up", "setup", "make", "start", "begin", "join",
+                    "enroll", "enrol", "create profile", "register me",
+                    # FR
+                    "créer", "ouvrir", "inscription", "inscrire", "s'inscrire",
+                    "enregistrer", "crée", "ouvre", "nouveau", "nouvelle",
+                    "creer", "ouvrir un compte", "creer un compte",
                 ],
                 "context": [
-                    "money", "cash", "funds", "amount", "xaf", "fcfa",
-                    "to", "someone", "phone", "number", "wallet", "account",
-                    "a", "à", "au", "vers", "numero", "numéro", "telephone", "téléphone"
+                    "account", "profile", "registration", "member", "compte",
+                    "adhésion", "membre", "profil", "inscription",
                 ],
                 "phrases": [
-                    "transfer money", "send money", "send funds",
-                    "make a transfer", "do a transfer", "i want to transfer",
-                    "i want to send money", "send money to", "transfer to",
-                    "envoyer de l'argent", "faire un transfert",
-                    "je veux envoyer", "je veux faire un transfert",
-                    "transférer de l'argent", "envoi d'argent"
-                ]
+                    # EN
+                    "create account", "open account", "new account",
+                    "sign up", "register", "want an account", "need an account",
+                    "get an account", "make an account", "start an account",
+                    "create an account", "open an account", "i want to register",
+                    "i want to create an account", "help me create an account",
+                    # FR
+                    "créer un compte", "ouvrir un compte", "je veux créer un compte",
+                    "je veux ouvrir un compte", "aide moi à créer un compte",
+                    "je veux m'inscrire", "inscris moi", "je veux un compte",
+                    "creer un compte", "ouvrir un compte",
+                ],
             },
 
+            Intent.VIEW_ACCOUNT: {
+                "keywords": [
+                    # EN
+                    "view", "show", "see", "check", "display", "look",
+                    "account info", "account details", "profile", "my account",
+                    "my profile", "who am i", "account status",
+                    # FR
+                    "mon compte", "voir", "afficher", "consulter", "profil",
+                    "mes infos", "mes informations", "détails", "details",
+                    "etat", "statut", "informations du compte",
+                ],
+                "context": [
+                    "account", "profile", "info", "information", "details", "my", "compte",
+                    "profil", "statut", "état", "etat", "coordonnées", "coordonnees",
+                ],
+                "phrases": [
+                    # EN
+                    "view account", "show account", "my account", "account details",
+                    "account info", "account information", "see my account",
+                    "check my account", "view my profile", "show my profile",
+                    "what is my account", "display account", "account status",
+                    "view my details", "show my details", "see my profile",
+                    # FR
+                    "voir mon compte", "afficher mon compte", "consulter mon compte",
+                    "voir mon profil", "afficher mon profil", "mes informations",
+                    "informations de mon compte", "détails de mon compte", "details de mon compte",
+                ],
+            },
+
+            Intent.WITHDRAWAL: {
+                "keywords": [
+                    # EN
+                    "withdraw", "withdrawal", "take out", "cash out",
+                    "pull out", "get money", "remove", "transfer out",
+                    "payout", "pay out", "encash",
+                    # FR
+                    "retrait", "retirer", "retire", "sortir", "encaisser",
+                    "retrait d'argent", "retirer de l'argent",
+                ],
+                "context": [
+                    "money", "cash", "funds", "amount", "xaf", "fcfa", "argent",
+                    "solde", "wallet", "portefeuille", "compte", "celo",
+                ],
+                "phrases": [
+                    # EN
+                    "withdraw money", "make withdrawal", "cash out",
+                    "take out money", "get my money", "withdraw funds",
+                    "make a withdrawal", "want to withdraw", "i want to withdraw",
+                    "withdraw from my account", "withdraw from wallet",
+                    # FR
+                    "faire un retrait", "retirer de l'argent", "je veux retirer",
+                    "je veux faire un retrait", "retirer sur mon compte",
+                    "faire un retrait d'argent", "retirer du wallet", "retirer du portefeuille",
+                ],
+            },
+
+            Intent.TOPUP: {
+                "keywords": [
+                    # EN
+                    "top up", "topup", "top-up", "deposit", "add", "load",
+                    "fund", "put in", "transfer in", "recharge", "credit",
+                    "add funds", "add money", "fund account",
+                    # FR
+                    "depot", "dépôt", "deposer", "déposer", "recharger",
+                    "charger", "crediter", "créditer", "mettre", "ajouter",
+                    "alimenter", "faire un depot", "faire un dépôt",
+                ],
+                "context": [
+                    "money", "funds", "balance", "account", "cash", "amount", "xaf", "fcfa",
+                    "compte", "solde", "wallet", "portefeuille", "celo",
+                ],
+                "phrases": [
+                    # EN
+                    "add money", "deposit money", "top up", "top-up", "topup",
+                    "add funds", "load money", "put money", "fund account",
+                    "add to balance", "make a deposit", "want to deposit",
+                    "i want to deposit", "i want to top up", "recharge account",
+                    "put money in my account", "add money to my wallet",
+                    # FR
+                    "faire un dépôt", "déposer de l'argent", "recharger mon compte",
+                    "je veux déposer", "je veux faire un dépôt", "je veux recharger",
+                    "ajouter de l'argent", "alimenter mon compte", "charger mon wallet",
+                    "crediter mon compte", "créditer mon compte", "faire un depot",
+                ],
+            },
+
+            Intent.TRANSFER: {
+                "keywords": [
+                    # EN
+                    "transfer", "send", "send money", "send funds",
+                    "pay", "payment", "wire", "remit", "remittance",
+                    "move money", "share money", "give money", "to someone",
+                    "to friend", "to my friend", "to my wife", "to my husband",
+                    # FR
+                    "transfert", "transferer", "transférer", "envoyer", "envoi",
+                    "virement", "payer", "paiement", "remettre", "faire passer",
+                    "donner", "à quelqu'un", "a quelqu'un", "à mon ami", "a mon ami",
+                    "a ma femme", "à ma femme", "à mon mari", "a mon mari",
+                    # Local/common
+                    "momo", "mobile money",
+                ],
+                "context": [
+                    # EN
+                    "to", "receiver", "recipient", "beneficiary", "phone", "number",
+                    "someone", "friend", "family",
+                    # FR
+                    "vers", "à", "a", "destinataire", "bénéficiaire", "beneficiaire",
+                    "numero", "numéro", "téléphone", "telephone", "contact",
+                    # Money context
+                    "money", "funds", "amount", "xaf", "fcfa", "argent", "solde",
+                    "wallet", "portefeuille", "compte", "celo",
+                ],
+                "phrases": [
+                    # EN
+                    "send money", "transfer money", "make a transfer",
+                    "i want to transfer", "i want to send money",
+                    "send to", "transfer to", "pay someone", "pay my friend",
+                    "send funds to", "transfer funds to", "move money to",
+                    # FR
+                    "envoyer de l'argent", "faire un transfert", "faire un virement",
+                    "je veux envoyer", "je veux transférer", "je veux transferer",
+                    "envoyer à", "transférer à", "transferer a", "payer quelqu'un",
+                    "envoyer de l'argent à", "faire passer de l'argent",
+                ],
+            },
+
+            Intent.BALANCE_INQUIRY: {
+                "keywords": [
+                    # EN
+                    "balance", "how much", "check", "available",
+                    "status", "amount", "total", "wallet",
+                    # FR
+                    "solde", "combien", "disponible", "montant", "total",
+                    "portefeuille",
+                ],
+                "context": [
+                    "account", "money", "have", "funds", "my", "wallet", "compte",
+                    "solde", "celo", "xaf", "fcfa", "portefeuille",
+                ],
+                "phrases": [
+                    # EN
+                    "check balance", "my balance", "account balance",
+                    "how much money", "how much do i have", "available balance",
+                    "what is my balance", "show balance", "check my balance",
+                    "what do i have", "my account balance", "my wallet balance",
+                    # FR
+                    "quel est mon solde", "mon solde", "solde du compte",
+                    "solde du wallet", "solde du portefeuille", "je veux mon solde",
+                    "combien j'ai", "combien il me reste", "montre mon solde",
+                ],
+            },
+
+            Intent.TRANSACTION_HISTORY: {
+                "keywords": [
+                    # EN
+                    "history", "transactions", "statement", "activity",
+                    "records", "past", "previous", "recent",
+                    # FR
+                    "historique", "relevé", "releve", "activité", "activite",
+                    "opérations", "operations", "mouvements",
+                ],
+                "context": [
+                    "transaction", "payment", "transfer", "account", "compte",
+                    "wallet", "portefeuille", "celo",
+                ],
+                "phrases": [
+                    # EN
+                    "transaction history", "my transactions", "past transactions",
+                    "recent activity", "account history", "show transactions",
+                    "view history", "statement", "my history", "show history",
+                    "get transactions", "show my transactions", "list transactions",
+                    # FR
+                    "voir mes transactions", "historique de transactions",
+                    "historique des transactions", "relevé de compte", "releve de compte",
+                    "liste des transactions", "voir l'historique", "montre l'historique",
+                    "mouvements du compte", "operations du compte",
+                ],
+            },
+
+            Intent.GREETING: {
+                "keywords": [
+                    "hello", "hi", "hey", "good morning", "good afternoon",
+                    "good evening", "greetings", "howdy",
+                    "bonjour", "salut", "coucou", "bonsoir",
+                ],
+                "context": [],
+                "phrases": ["hello there", "hi there", "hey there", "bonjour à vous", "salut à toi"],
+            },
+
+            Intent.GOODBYE: {
+                "keywords": [
+                    "bye", "goodbye", "see you", "thanks", "thank you",
+                    "done", "exit", "quit", "finished",
+                    "merci", "au revoir", "à bientôt", "a bientot", "bonne journée", "bonne journee",
+                ],
+                "context": [],
+                "phrases": [
+                    "thank you", "thanks bye", "goodbye", "that is all",
+                    "i'm done", "no more", "nothing else", "that's all",
+                    "merci beaucoup", "c'est tout", "rien d'autre",
+                ],
+            },
+
+            Intent.CONFIRMATION: {
+                "keywords": [
+                    "yes", "yeah", "yep", "correct", "confirm", "sure",
+                    "ok", "okay", "right", "exactly", "affirmative",
+                    "proceed",
+                    "oui", "ouais", "d'accord", "okey", "parfait", "exact",
+                ],
+                "context": [],
+                "phrases": ["that's right", "that is correct", "go ahead", "sounds good", "c'est bon", "c'est correct"],
+            },
+
+            Intent.DENIAL: {
+                "keywords": [
+                    "no", "nope", "cancel", "stop", "wrong", "incorrect",
+                    "nevermind", "never mind", "forget it",
+                    "non", "pas du tout", "annule", "annuler", "stop", "laisse", "laissez",
+                ],
+                "context": [],
+                "phrases": ["no thanks", "cancel that", "forget it", "not right", "non merci", "annule ça", "annule ca"],
+            },
         }
-        
+
+        # Keep OFF_TOPIC simple; avoid blocking words that might appear in your domain.
         self.blocked_phrases = [
-            'weather', 'forecast', 'temperature', 'joke', 'funny',
-            'story', 'recipe', 'movie', 'music', 'song', 'game',
-            'president', 'politics', 'write code', 'programming',
-            'homework', 'essay', 'translate'
+            "weather", "forecast", "temperature", "joke", "funny",
+            "story", "recipe", "movie", "music", "song", "game",
+            "president", "politics", "write code", "programming",
+            "homework", "essay", "translate",
         ]
-    
+
     def _normalize_text(self, text: str) -> str:
         """Normalize text for matching"""
         text = text.lower().strip()
-        text = text.replace('-', ' ')
-        text = re.sub(r'\s+', ' ', text)
+        text = text.replace("-", " ")
+        text = re.sub(r"\s+", " ", text)
         return text
-    
+
+    def _has_word(self, text: str, word: str) -> bool:
+        """Whole-word match for single tokens to reduce false positives."""
+        return re.search(rf"\b{re.escape(word)}\b", text) is not None
+
     def classify(self, text: str) -> Tuple[Intent, float]:
         """Classify user intent from text."""
         if not text or not text.strip():
             return Intent.GENERAL_SUPPORT, 0.0
-        
+
         text_normalized = self._normalize_text(text)
-        
+
         for phrase in self.blocked_phrases:
             if phrase in text_normalized:
                 return Intent.OFF_TOPIC, 0.9
-        
+
         scores = {}
-        
+
         for intent, patterns in self.intent_patterns.items():
             score = 0.0
-            
-            for phrase in patterns.get('phrases', []):
-                phrase_normalized = self._normalize_text(phrase)
-                if phrase_normalized in text_normalized:
+
+            # phrases (highest weight)
+            for phrase in patterns.get("phrases", []):
+                p = self._normalize_text(phrase)
+                if p and p in text_normalized:
                     score += 0.8
                     break
-            
+
+            # keywords
             keyword_found = False
-            for keyword in patterns.get('keywords', []):
-                keyword_normalized = self._normalize_text(keyword)
-                if keyword_normalized in text_normalized:
+            for keyword in patterns.get("keywords", []):
+                k = self._normalize_text(keyword)
+                if not k:
+                    continue
+
+                # if keyword is multi-word, use substring match; else use whole-word match
+                if (" " in k and k in text_normalized) or (" " not in k and self._has_word(text_normalized, k)):
                     score += 0.5
                     keyword_found = True
                     break
-            
-            context_words = patterns.get('context', [])
+
+            # context
+            context_words = patterns.get("context", [])
             if context_words:
                 for ctx in context_words:
-                    if ctx in text_normalized:
+                    c = self._normalize_text(ctx)
+                    if not c:
+                        continue
+                    if (" " in c and c in text_normalized) or (" " not in c and self._has_word(text_normalized, c)):
                         score += 0.2
                         break
-            
+
+            # Boost for short inputs with keyword match
             if keyword_found and len(text_normalized.split()) <= 2:
                 score += 0.3
-            
+
             scores[intent] = min(score, 1.0)
-        
+
         if scores:
             best_intent = max(scores, key=scores.get)
             best_score = scores[best_intent]
-            
             if best_score >= 0.4:
                 return best_intent, best_score
-        
+
         return Intent.GENERAL_SUPPORT, 0.5

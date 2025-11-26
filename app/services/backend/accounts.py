@@ -1,6 +1,6 @@
 """Account-related backend API calls"""
 
-from typing import Optional
+from typing import Any, Dict, Optional
 from dataclasses import dataclass
 from datetime import datetime
 
