@@ -1,4 +1,4 @@
-"""Conversation flow manager"""
+# app/core/conversation/manager.py
 
 from typing import Optional, Tuple, Dict, Any
 
@@ -10,29 +10,37 @@ from .flows.withdrawal import WithdrawalFlow
 from .flows.topup import TopUpFlow
 from app.core.intent import IntentClassifier, Intent
 from app.core.extraction import DataExtractor
-from app.services.backend import account_service, transaction_service
-from app.storage import ConversationStore
+from app.config.prompts import FLOW_PROMPTS
 from app.config import settings
+from app.services.backend.accounts import account_service
+from app.services.backend.transactions import (
+    transaction_service,
+    TransactionType,  # <-- import TransactionType
+)
+from app.storage import ConversationStore
 from app.utils.logging import get_logger
+from app.utils.lang import detect_language
+
+# Import the flow classes
+from app.core.conversation.flows.account import AccountCreationFlow
+from app.core.conversation.flows.withdrawal import WithdrawalFlow
+from app.core.conversation.flows.topup import TopUpFlow
 
 logger = get_logger(__name__)
 
 
 class ConversationManager:
-    """Manages conversation flows and state"""
-    
     def __init__(self, store: ConversationStore):
         self.store = store
         self.intent_classifier = IntentClassifier()
         self.extractor = DataExtractor()
-    
+
     async def get_or_create_state(
         self,
         conversation_id: str,
         user_id: str,
         phone_number: str,
     ) -> ConversationState:
-        """Get existing state or create new one"""
         state = await self.store.get(conversation_id)
         
         if state is None:
@@ -41,20 +49,10 @@ class ConversationManager:
                 user_id=user_id,
                 phone_number=phone_number,
             )
-            
-            # Try to load account info
-            try:
-                account = await account_service.get_my_account(phone_number)
-                if account:
-                    state.account_id = account.id
-                    state.account_balance = account.balance
-            except Exception as e:
-                logger.warning(f"Failed to load account info: {e}")
-            
-            await self.store.save(state)
-        
+            # we don't set lang here; we set it on first message
+
         return state
-    
+
     async def process_message(
         self,
         conversation_id: str,
@@ -62,10 +60,13 @@ class ConversationManager:
         phone_number: str,
         text: str,
     ) -> Tuple[str, Dict[str, Any]]:
-        """Process a user message and return response."""
         state = await self.get_or_create_state(conversation_id, user_id, phone_number)
-        
-        metadata = {
+
+        # Detect language once per conversation
+        if not state.lang:
+            state.lang = detect_language(text)
+
+        metadata: Dict[str, Any] = {
             "intent": None,
             "flow": {
                 "flow_type": state.flow_type.value,
@@ -74,38 +75,36 @@ class ConversationManager:
             },
             "transaction_data": None,
         }
-        
-        # Check for cancel
-        if "cancel" in text.lower() and state.is_in_flow():
-            flow = self._get_flow(state)
-            response = flow.cancel()
-            await self.store.save(state)
-            return response, metadata
-        
-        # If in a flow, process with that flow
+
+        # Flow continuation
         if state.is_in_flow():
-            response, transaction_data = await self._process_flow(state, text)
+            response, tx_data = await self._process_flow(state, text)
             metadata["flow"]["flow_type"] = state.flow_type.value
             metadata["flow"]["step"] = state.flow_step.value if state.flow_step else None
             metadata["flow"]["is_complete"] = not state.is_in_flow()
-            metadata["transaction_data"] = transaction_data
+            metadata["transaction_data"] = tx_data
             await self.store.save(state)
             return response, metadata
-        
+
         # Classify intent
         intent, confidence = self.intent_classifier.classify(text)
         metadata["intent"] = {"intent": intent.value, "confidence": confidence}
-        
         logger.info(f"Classified intent: {intent.value} ({confidence:.2f})")
-        
-        # Handle different intents
+
         response = await self._handle_intent(state, intent, text)
-        
+
         metadata["flow"]["flow_type"] = state.flow_type.value
         metadata["flow"]["step"] = state.flow_step.value if state.flow_step else None
-        
+
         await self.store.save(state)
         return response, metadata
+
+    # _process_flow, _handle_intent, etc. stay as previously discussed,
+    # but when you need a prompt from FLOW_PROMPTS, you pick based on state.lang:
+    #
+    #   lang = state.lang or "en"
+    #   key = f"start_{lang}"
+    #   prompt = FLOW_PROMPTS["account_creation"].get(key, FLOW_PROMPTS["account_creation"]["start_en"])
     
     async def _process_flow(
         self,
@@ -185,7 +184,10 @@ class ConversationManager:
         elif intent == Intent.VIEW_ACCOUNT:
             return await self._handle_view_account(state)
         
-        # 3) Balance inquiry
+        elif intent == Intent.BALANCE_INQUIRY:
+            return await self._handle_balance_inquiry(state)
+        
+        # 3) Transactions inquiry
         elif intent == Intent.TRANSACTION_HISTORY:
             return await self._handle_transaction_history(state)
 
@@ -252,22 +254,39 @@ class ConversationManager:
             return "Sorry, I couldn't retrieve your account information. Please try again later."
     
     async def _handle_balance_inquiry(self, state: ConversationState) -> str:
-        """Handle balance inquiry"""
-        if not state.account_id:
-            account = await account_service.get_my_account(state.phone_number)
-            if account:
-                state.account_id = account.id
-                state.account_balance = account.balance
-            else:
-                return "You don't have an account yet. Would you like to create one?"
-        
+        """Handle balance inquiry (CELO wallet) using /api/get-balance."""
+
+        phone = state.phone_number
+
         try:
-            balance = await account_service.get_balance(state.account_id)
-            state.account_balance = balance.balance
-            return f"Your current balance is {balance.balance:.0f} {settings.CURRENCY}. Is there anything else?"
+            # Ensure they actually have an account
+            phone_check = await account_service.check_phone_number(phone)
+            state.mark_phone_checked(phone_check.exists)
+
+            if not state.account_exists:
+                return (
+                    "I couldn't find an account with this phone number. "
+                    "Would you like to create an account?"
+                )
+
+            # Get CELO balance
+            wallet_balance = await account_service.get_balance(phone)
+
+            # Optionally cache this in state
+            state.account_balance = wallet_balance.balance
+
+            return (
+                f"Your current wallet balance is "
+                f"{wallet_balance.balance:.4f} {wallet_balance.currency}. "
+                "Is there anything else I can help you with?"
+            )
+
         except Exception as e:
-            logger.error(f"Failed to get balance: {e}")
-            return "Sorry, I couldn't retrieve your balance. Please try again later."
+            logger.error(f"Failed to handle balance inquiry: {e}")
+            return (
+                "Sorry, I couldn't retrieve your wallet balance right now. "
+                "Please try again later."
+            )
     
     async def _handle_transaction_history(self, state: ConversationState) -> str:
         """Handle transaction history inquiry"""

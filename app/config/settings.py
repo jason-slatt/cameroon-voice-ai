@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     MAX_RESPONSE_WORDS: int = 50
     
     # Speech-to-Text
-    WHISPER_MODEL: str = "base.en"
+    WHISPER_MODEL: str = "base"
     STT_ENABLED: bool = True
     
     # Text-to-Speech

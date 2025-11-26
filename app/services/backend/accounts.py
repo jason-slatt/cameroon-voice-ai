@@ -10,7 +10,6 @@ from app.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
-
 @dataclass
 class PhoneCheckResult:
     """Phone number check result"""
@@ -22,7 +21,7 @@ class PhoneCheckResult:
 
 @dataclass
 class Account:
-    """Account data model"""
+    """Account data model (profile from /api/my-account)"""
     id: str
     account_number: str
     full_name: str
@@ -32,6 +31,7 @@ class Account:
     sex: Optional[str] = None
     groupement_id: Optional[int] = None
     groupement_name: Optional[str] = None
+    blockchain_address: Optional[str] = None   # NEW
     currency: str = "XAF"
     status: str = "ACTIVE"
     created_at: Optional[datetime] = None
@@ -39,10 +39,10 @@ class Account:
 
 @dataclass
 class AccountBalance:
-    """Account balance data"""
-    account_id: str
+    """Wallet balance data from /api/get-balance (CELO)"""
+    phone_number: str
     balance: float
-    currency: str = "XAF"
+    currency: str = "CELO"
 
 @dataclass
 class TransferResult:
@@ -204,7 +204,7 @@ class AccountService:
     
     async def get_my_account(self, phone_number: str) -> Optional[Account]:
         """
-        Get account details using the /api/my-account endpoint.
+        Get account details using /api/my-account.
 
         Swagger:
         POST /api/my-account
@@ -220,7 +220,6 @@ class AccountService:
 
             logger.info(f"/api/my-account response for {phone_number}: {raw}")
 
-            # Expecting shape: {"code": ..., "message": "...", "data": {...}, "success": ...}
             if not isinstance(raw, dict):
                 logger.error(f"Unexpected /api/my-account response type: {type(raw)}")
                 return None
@@ -241,36 +240,39 @@ class AccountService:
                 except Exception as e:
                     logger.warning(f"Could not parse createdAt: {e}")
 
-            # BAFOKA doesn't show an explicit "accountNumber" here, so we can 
-            # use the internal id as a surrogate account number string.
             account_id = str(data.get("id", ""))
 
             return Account(
                 id=account_id,
-                account_number=account_id,
+                account_number=account_id,  # backend does not give a separate accountNumber here
                 full_name=data.get("fullName", ""),
                 phone_number=data.get("phoneNumber", phone_number),
                 age=data.get("age"),
                 sex=data.get("sex"),
                 groupement_id=groupement_id,
                 groupement_name=groupement_name,
-                balance=0.0,  # /api/my-account doesn't include balance
+                blockchain_address=data.get("blockchainAddress"),  # NEW
+                balance=0.0,  # profile doesn’t include CELO balance
                 currency="XAF",
                 status=str(data.get("status", "ACTIVE")),
                 created_at=created_at,
             )
 
         except BackendAPIError as e:
-            if e.status_code == 404:
-                logger.info(f"No account found for {phone_number} (404 from /api/my-account)")
+            msg_lower = str(e.message).lower() if hasattr(e, "message") else str(e).lower()
+
+            # 404 or 400 "Compte introuvable" => no account
+            if e.status_code in (400, 404) and "compte introuvable" in msg_lower:
+                logger.info(f"No account found for {phone_number} ({e.status_code} from /api/my-account: {e.message})")
                 return None
+
             logger.error(f"Error fetching account from /api/my-account: {e}")
             raise
 
         except Exception as e:
             logger.error(f"Failed to get account for {phone_number}: {e}")
             return None
-        
+            
     async def get_account_by_phone(self, phone_number: str) -> Optional[Account]:
         """Get account by phone number (alias for get_my_account)"""
         return await self.get_my_account(phone_number)
@@ -301,24 +303,81 @@ class AccountService:
             logger.warning(f"Failed to get account by ID: {e}")
             return None
     
-    async def get_balance(self, account_id: str) -> AccountBalance:
-        """Get account balance"""
+    async def get_balance(self, phone_number: str) -> AccountBalance:
+        """
+        Get CELO wallet balance using /api/get-balance.
+
+        Flow:
+        1. Call get_my_account(phone_number) to get:
+           - fullName
+           - age
+           - sex
+           - groupement_id
+           - blockchainAddress
+        2. POST to /api/get-balance with these fields.
+        """
+        logger.info(f"Getting wallet balance for {phone_number}")
+
+        # 1) Get profile
+        account = await self.get_my_account(phone_number)
+        if not account:
+            logger.warning(f"Cannot get balance: no account profile for {phone_number}")
+            # You can choose to raise here instead; I’ll return 0 for safety.
+            return AccountBalance(phone_number=phone_number, balance=0.0)
+
+        # 2) Build payload as per Swagger
+        payload: Dict[str, Any] = {
+            "phoneNumber": account.phone_number,
+            "fullName": account.full_name or "",
+            "age": account.age or "",
+            "sex": account.sex or "",
+            "groupement_id": account.groupement_id or 0,
+            "blockchainAddress": account.blockchain_address or "",
+        }
+
         try:
-            response = await self.client.get(f"/api/accounts/{account_id}/balance")
-            
-            return AccountBalance(
-                account_id=account_id,
-                balance=response.get("balance", 0.0),
-                currency=response.get("currency", "XAF"),
+            raw = await self.client.post(
+                "/api/get-balance",
+                data=payload,
             )
+
+            logger.info(f"/api/get-balance response for {phone_number}: {raw}")
+
+            if not isinstance(raw, dict):
+                logger.error(f"Unexpected /api/get-balance response type: {type(raw)}")
+                return AccountBalance(phone_number=phone_number, balance=0.0)
+
+            # Many BAFOKA endpoints: {code, message, data, success}
+            data = raw.get("data", raw)
+
+            # Adjust this once you see real response from /api/get-balance
+            # We assume something like { "balance": "0.1234" } in data.
+            balance_raw = (
+                data.get("balance")
+                or data.get("celoBalance")
+                or data.get("walletBalance")
+            )
+
+            try:
+                balance = float(str(balance_raw)) if balance_raw is not None else 0.0
+            except Exception as e:
+                logger.warning(f"Could not parse balance value {balance_raw}: {e}")
+                balance = 0.0
+
+            return AccountBalance(
+                phone_number=phone_number,
+                balance=balance,
+                currency="CELO",
+            )
+
+        except BackendAPIError as e:
+            logger.error(f"Backend error from /api/get-balance: {e}")
+            return AccountBalance(phone_number=phone_number, balance=0.0)
+
         except Exception as e:
-            logger.warning(f"Failed to get balance: {e}")
-            return AccountBalance(
-                account_id=account_id,
-                balance=50000.0,
-                currency="XAF",
-            )
-    
+            logger.error(f"Failed to get balance for {phone_number}: {e}")
+            return AccountBalance(phone_number=phone_number, balance=0.0)
+        
     async def account_exists(self, phone_number: str) -> bool:
         """Check if account exists for phone number"""
         account = await self.get_account_by_phone(phone_number)

@@ -12,7 +12,6 @@ class DataExtractor:
         """Extract name from text."""
         text = text.strip()
         
-        # Remove common filler words
         patterns_to_remove = [
             r'\b(um|uh|like|so|well|okay|ok|my|name|is|i\'m|i\s+am|call\s+me|it\'s|this\s+is|the\s+name\s+is)\b',
         ]
@@ -34,16 +33,7 @@ class DataExtractor:
     
     @staticmethod
     def extract_age(text: str) -> Optional[int]:
-        """
-        Extract age from text.
-        
-        Args:
-            text: User input text
-            
-        Returns:
-            Extracted age or None
-        """
-        # Remove common filler words
+        """Extract age from text."""
         text = re.sub(
             r'\b(my|age|is|i\'m|i\s+am|years?|old)\b',
             '',
@@ -51,10 +41,9 @@ class DataExtractor:
             flags=re.IGNORECASE
         )
         
-        # Patterns for age extraction
         patterns = [
-            r'\b(\d{1,3})\s*(?:years?\s*old)?',  # "25 years old" or "25"
-            r'(?:age|aged?)\s*(\d{1,3})',  # "age 25" or "aged 25"
+            r'\b(\d{1,3})\s*(?:years?\s*old)?',
+            r'(?:age|aged?)\s*(\d{1,3})',
         ]
         
         for pattern in patterns:
@@ -62,13 +51,11 @@ class DataExtractor:
             if match:
                 try:
                     age = int(match.group(1))
-                    # Validate age range (reasonable human age)
                     if 1 <= age <= 150:
                         return age
                 except ValueError:
                     continue
         
-        # Try to extract just a number if text is simple
         text_stripped = text.strip()
         if text_stripped.isdigit():
             age = int(text_stripped)
@@ -79,24 +66,14 @@ class DataExtractor:
     
     @staticmethod
     def extract_sex(text: str) -> Optional[str]:
-        """
-        Extract sex/gender from text.
-        
-        Args:
-            text: User input text
-            
-        Returns:
-            'M' for male, 'F' for female, or None
-        """
+        """Extract sex/gender from text ('M' or 'F')."""
         text_lower = text.lower().strip()
         
-        # Male indicators
         male_keywords = [
             'male', 'man', 'boy', 'homme', 'masculin',
             'garcon', 'garçon', 'm', 'h'
         ]
         
-        # Female indicators
         female_keywords = [
             'female', 'woman', 'girl', 'femme', 'féminin',
             'fille', 'f'
@@ -114,34 +91,21 @@ class DataExtractor:
     
     @staticmethod
     def extract_groupement(text: str, groupements: list) -> Optional[int]:
-        """
-        Extract groupement selection from text.
-        
-        Args:
-            text: User input text
-            groupements: List of available groupements
-            
-        Returns:
-            Groupement ID or None
-        """
+        """Extract groupement selection from text."""
         text_lower = text.lower().strip()
         
-        # Try to match by ID
         for groupement in groupements:
             if str(groupement['id']) in text_lower:
                 return groupement['id']
         
-        # Try to match by name
         for groupement in groupements:
             if groupement['name'].lower() in text_lower:
                 return groupement['id']
         
-        # Try to match by token
         for groupement in groupements:
             if groupement['token'].lower() in text_lower:
                 return groupement['id']
         
-        # Try to extract just a number
         if text_lower.isdigit():
             id_num = int(text_lower)
             if any(g['id'] == id_num for g in groupements):
@@ -205,12 +169,12 @@ class DataExtractor:
         
         confirmations = [
             'yes', 'yeah', 'yep', 'yup', 'correct', 'confirm', 'sure',
-            'ok', 'okay', 'proceed', 'oui', 'right', 'affirmative',
+            'ok', 'okay', 'proceed', 'oui', 'ouais', 'd\'accord',
         ]
         
         denials = [
             'no', 'nope', 'nah', 'cancel', 'stop', 'wrong', 'incorrect',
-            'nevermind', 'never mind', 'non', 'negative',
+            'nevermind', 'never mind', 'non', 'pas du tout', 'negative',
         ]
         
         for word in confirmations:

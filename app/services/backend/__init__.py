@@ -1,6 +1,6 @@
 from .client import BackendClient, backend_client
 from .accounts import AccountService, account_service
-from .transactions import TransactionService, transaction_service
+from .transactions import TransactionService, transaction_service, TransactionType
 
 __all__ = [
     "BackendClient",
@@ -9,4 +9,5 @@ __all__ = [
     "account_service",
     "TransactionService",
     "transaction_service",
+    "TransactionType"
 ]
