@@ -19,6 +19,7 @@ class Intent(Enum):
     CONFIRMATION = "confirmation"
     DENIAL = "denial"
     OFF_TOPIC = "off_topic"
+    TRANSFER = "transfer"
 
 
 class IntentClassifier:
@@ -124,7 +125,28 @@ class IntentClassifier:
                 ],
                 'context': [],
                 'phrases': ['no thanks', 'cancel that', 'forget it', 'not right']
-            }
+            },
+            Intent.TRANSFER: {
+                "keywords": [
+                    "send", "send money", "transfer", "send cash", "pay",
+                    "payer", "envoyer", "envoyer de l'argent", "transfert",
+                    "remit", "remittance", "p2p"
+                ],
+                "context": [
+                    "money", "cash", "funds", "amount", "xaf", "fcfa",
+                    "to", "someone", "phone", "number", "wallet", "account",
+                    "a", "à", "au", "vers", "numero", "numéro", "telephone", "téléphone"
+                ],
+                "phrases": [
+                    "transfer money", "send money", "send funds",
+                    "make a transfer", "do a transfer", "i want to transfer",
+                    "i want to send money", "send money to", "transfer to",
+                    "envoyer de l'argent", "faire un transfert",
+                    "je veux envoyer", "je veux faire un transfert",
+                    "transférer de l'argent", "envoi d'argent"
+                ]
+            },
+
         }
         
         self.blocked_phrases = [

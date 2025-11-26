@@ -42,4 +42,18 @@ FLOW_PROMPTS = {
         "success": "Your deposit of {amount:.0f} {currency} has been received. Your new balance is {new_balance:.0f} {currency}.",
         "error": "I'm sorry, there was an issue processing your deposit. Please try again later.",
     },
+    
+     "transfer": {
+        "start": "Sure — who do you want to send money to? Please share the receiver phone number.",
+        "ask_receiver_retry": "I couldn't read the receiver phone number. Please send digits only (example: 690123456).",
+        "ask_amount": f"How much do you want to send? (in {settings.CURRENCY})",
+        "ask_amount_retry": f"I couldn't understand the amount. Please send a number like '10000' (in {settings.CURRENCY}).",
+        "ask_pin": "Please enter your PIN to confirm the transfer.",
+        "ask_pin_retry": "Invalid PIN. Please enter a valid PIN (4–6 digits).",
+        "confirm": "Confirm transfer: send {amount} {currency} to {receiver}. Reply 'yes' to confirm or 'no' to cancel.",
+        "confirm_retry": "Please reply 'yes' to confirm or 'no' to cancel this transfer.",
+        "insufficient_funds": "Sorry, you don't have enough balance. Your current balance is {balance:.0f} {currency}.",
+        "success": "✅ Transfer completed successfully. Reference: {reference}.",
+        "error": "I'm sorry, there was an issue processing your transfer. Please try again later.",
+    },
 }

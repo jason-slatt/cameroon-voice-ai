@@ -1,6 +1,8 @@
 """Conversation flow manager"""
 
 from typing import Optional, Tuple, Dict, Any
+
+from app.core.conversation.flows.transfer import TransferFlow
 from .state import ConversationState, FlowType, FlowStep
 from .flows.account import AccountCreationFlow
 from .flows.withdrawal import WithdrawalFlow
@@ -162,6 +164,9 @@ class ConversationManager:
         
         elif intent == Intent.TOPUP:
             flow = TopUpFlow(state)
+            return await flow.start()
+        elif intent == Intent.TRANSFER:
+            flow = TransferFlow(state)
             return await flow.start()
         
         elif intent == Intent.BALANCE_INQUIRY:

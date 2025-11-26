@@ -13,6 +13,7 @@ class FlowType(str, Enum):
     TOPUP = "topup"
     BALANCE_INQUIRY = "balance_inquiry"
     TRANSACTION_HISTORY = "transaction_history"
+    TRANSFER = "transfer" 
 
 
 class FlowStep(str, Enum):
@@ -26,6 +27,10 @@ class FlowStep(str, Enum):
     
     # Transactions
     ASK_AMOUNT = "ask_amount"
+
+    #transfer
+    ASK_RECEIVER = "ask_receiver"
+    ASK_PIN = "ask_pin"
 
 
 @dataclass
