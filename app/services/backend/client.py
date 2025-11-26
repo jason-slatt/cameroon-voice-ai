@@ -88,9 +88,14 @@ class BackendClient:
         """GET request"""
         return await self._request("GET", endpoint, params=params)
     
-    async def post(self, endpoint: str, data: Optional[Dict] = None) -> Dict[str, Any]:
+    async def post(
+    self,
+    endpoint: str,
+    data: Optional[Dict] = None,
+    params: Optional[Dict] = None,
+) -> Dict[str, Any]:
         """POST request"""
-        return await self._request("POST", endpoint, data=data)
+        return await self._request("POST", endpoint, data=data, params=params)
     
     async def put(self, endpoint: str, data: Optional[Dict] = None) -> Dict[str, Any]:
         """PUT request"""

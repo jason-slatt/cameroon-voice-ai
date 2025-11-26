@@ -46,7 +46,7 @@ async def process_text_message(
     
     try:
         logger.info(f"Processing text message for user {request.user_id}: {request.text[:50]}...")
-        
+
         # Process the message
         response_text, metadata = await manager.process_message(
             conversation_id=request.conversation_id,
@@ -54,6 +54,10 @@ async def process_text_message(
             phone_number=request.phone_number,
             text=request.text,
         )
+
+        if not isinstance(response_text, str) or not response_text.strip():
+            logger.warning("ConversationManager returned empty/None response_text; sending fallback message.")
+            response_text = "I'm not sure how to respond to that yet, but I'm here to help with your account, balance, withdrawals, and deposits."
         
         # Generate audio if requested
         audio_url = None

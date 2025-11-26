@@ -7,7 +7,7 @@ from .flows.withdrawal import WithdrawalFlow
 from .flows.topup import TopUpFlow
 from app.core.intent import IntentClassifier, Intent
 from app.core.extraction import DataExtractor
-from app.services.backend import account_service
+from app.services.backend import account_service, transaction_service
 from app.storage import ConversationStore
 from app.config import settings
 from app.utils.logging import get_logger
@@ -41,7 +41,7 @@ class ConversationManager:
             
             # Try to load account info
             try:
-                account = await account_service.get_account_by_phone(phone_number)
+                account = await account_service.get_my_account(phone_number)
                 if account:
                     state.account_id = account.id
                     state.account_balance = account.balance
@@ -59,13 +59,7 @@ class ConversationManager:
         phone_number: str,
         text: str,
     ) -> Tuple[str, Dict[str, Any]]:
-        """
-        Process a user message and return response.
-        
-        Returns:
-            Tuple of (response_text, metadata)
-        """
-        # Get or create state
+        """Process a user message and return response."""
         state = await self.get_or_create_state(conversation_id, user_id, phone_number)
         
         metadata = {
@@ -125,7 +119,6 @@ class ConversationManager:
         response, is_complete = await flow.process(text)
         
         if is_complete:
-            # Complete the flow
             success_message, result_data = await flow.complete()
             return success_message, result_data
         
@@ -151,45 +144,111 @@ class ConversationManager:
         text: str,
     ) -> str:
         """Handle classified intent"""
-        
+
+        # 1) Account creation: enforce global "no creation if account exists"
         if intent == Intent.ACCOUNT_CREATION:
+            # Ensure we know if this phone already has an account
+            exists = state.account_exists
+
+            if not state.phone_checked:
+                try:
+                    phone_check = await account_service.check_phone_number(state.phone_number)
+                    exists = phone_check.exists
+                    state.mark_phone_checked(exists)
+
+                    if exists:
+                        account = await account_service.get_my_account(state.phone_number)
+                        if account:
+                            state.account_id = account.id
+                            state.account_balance = account.balance
+                except Exception as e:
+                    logger.warning(f"Phone check failed, defaulting to no account: {e}")
+                    exists = False
+                    state.mark_phone_checked(False)
+
+            # If account already exists, NEVER start creation flow
+            if exists:
+                return (
+                    f"You already have an account with {settings.COMPANY_NAME}. "
+                    "I can help you view your account, check your balance, make a withdrawal, "
+                    "or top up your balance. What would you like to do?"
+                )
+
+            # Only if no account: start account creation flow
             flow = AccountCreationFlow(state)
             return await flow.start()
+
+        # 2) View account (we added this intent earlier)
+        elif intent == Intent.VIEW_ACCOUNT:
+            return await self._handle_view_account(state)
         
+        # 3) Balance inquiry
+        elif intent == Intent.TRANSACTION_HISTORY:
+            return await self._handle_transaction_history(state)
+
+        # 3) Withdrawals: require an account
         elif intent == Intent.WITHDRAWAL:
+            if not state.account_exists:
+                return "You need an account to make a withdrawal. Would you like to view your account or create one?"
             flow = WithdrawalFlow(state)
             return await flow.start()
-        
+
+        # 4) Top-ups: require an account
         elif intent == Intent.TOPUP:
+            if not state.account_exists:
+                return "You need an account to make a deposit. Would you like to view your account or create one?"
             flow = TopUpFlow(state)
             return await flow.start()
         
-        elif intent == Intent.BALANCE_INQUIRY:
-            return await self._handle_balance_inquiry(state)
-        
-        elif intent == Intent.TRANSACTION_HISTORY:
-            return await self._handle_transaction_history(state)
-        
-        elif intent == Intent.GREETING:
-            return f"Hello! Welcome to {settings.COMPANY_NAME}. How can I help you today?"
-        
-        elif intent == Intent.GOODBYE:
-            return f"Goodbye! Thank you for using {settings.COMPANY_NAME}."
-        
-        elif intent == Intent.OFF_TOPIC:
-            return (
-                f"I can help you with {settings.COMPANY_NAME} services: "
-                "account creation, withdrawals, top-ups, or balance inquiries. "
-                "What would you like to do?"
-            )
-        
-        # Default / general support
-        return f"Welcome to {settings.COMPANY_NAME}! I can help you create an account, make withdrawals, or top up your balance. What would you like to do?"
+    async def _handle_view_account(self, state: ConversationState) -> str:
+        """Handle view account request"""
+        try:
+            account = await account_service.get_my_account(state.phone_number)
+            
+            if not account:
+                return (
+                    "I couldn't find an account with this phone number. "
+                    "Would you like to create an account?"
+                )
+            
+            # Update state with account info
+            state.account_id = account.id
+            state.account_balance = account.balance
+            
+            # Format account details
+            sex_display = "Male" if account.sex == "M" else "Female" if account.sex == "F" else "Not specified"
+            
+            response_lines = [
+                f"Here are your account details:",
+                f"• Name: {account.full_name}",
+                f"• Account Number: {account.account_number}",
+                f"• Phone: {account.phone_number}",
+            ]
+            
+            if account.age:
+                response_lines.append(f"• Age: {account.age}")
+            
+            if account.sex:
+                response_lines.append(f"• Sex: {sex_display}")
+            
+            if account.groupement_name:
+                response_lines.append(f"• Groupement: {account.groupement_name}")
+            
+            response_lines.append(f"• Balance: {account.balance:.0f} {settings.CURRENCY}")
+            response_lines.append(f"• Status: {account.status}")
+            
+            response_lines.append("\nIs there anything else I can help you with?")
+            
+            return "\n".join(response_lines)
+            
+        except Exception as e:
+            logger.error(f"Error viewing account: {e}")
+            return "Sorry, I couldn't retrieve your account information. Please try again later."
     
     async def _handle_balance_inquiry(self, state: ConversationState) -> str:
         """Handle balance inquiry"""
         if not state.account_id:
-            account = await account_service.get_account_by_phone(state.phone_number)
+            account = await account_service.get_my_account(state.phone_number)
             if account:
                 state.account_id = account.id
                 state.account_balance = account.balance
@@ -206,31 +265,50 @@ class ConversationManager:
     
     async def _handle_transaction_history(self, state: ConversationState) -> str:
         """Handle transaction history inquiry"""
-        from app.services.backend import transaction_service
-        
-        if not state.account_id:
-            account = await account_service.get_account_by_phone(state.phone_number)
-            if account:
-                state.account_id = account.id
-            else:
-                return "You don't have an account yet. Would you like to create one?"
-        
+
+        phone = state.phone_number
+
         try:
-            transactions = await transaction_service.get_recent_transactions(
-                state.account_id,
+            # OPTIONAL: Ensure user has an account first
+            phone_check = await account_service.check_phone_number(phone)
+            state.mark_phone_checked(phone_check.exists)
+
+            if not state.account_exists:
+                return (
+                    "I couldn't find an account with this phone number. "
+                    "Would you like to create an account?"
+                )
+
+            # Call GET /dashboard/transactions
+            transactions = await transaction_service.get_dashboard_transactions(
+                phone_number=phone,
                 limit=5,
             )
-            
+
             if not transactions:
                 return "You don't have any transactions yet."
-            
-            # Format transactions
-            lines = ["Your recent transactions:"]
-            for t in transactions:
-                lines.append(f"• {t.type.value}: {t.amount:.0f} {settings.CURRENCY} ({t.status.value})")
-            
+
+            lines = ["Here are your recent transactions:"]
+
+            for t in transactions[:5]:
+                type_label = (
+                    "Deposit" if t.type == TransactionType.DEPOSIT else
+                    "Withdrawal" if t.type == TransactionType.WITHDRAWAL else
+                    t.type.value.title()
+                )
+                status_label = t.status.value.title()
+                amount_str = f"{t.amount:.0f} {settings.CURRENCY}"
+
+                if t.created_at:
+                    date_str = t.created_at.strftime("%Y-%m-%d")
+                    lines.append(f"• {date_str}: {type_label} of {amount_str} ({status_label})")
+                else:
+                    lines.append(f"• {type_label} of {amount_str} ({status_label})")
+
+            lines.append("\nDo you want more details on any of these, or something else?")
+
             return "\n".join(lines)
-            
+
         except Exception as e:
-            logger.error(f"Failed to get transactions: {e}")
-            return "Sorry, I couldn't retrieve your transactions. Please try again later."
+            logger.error(f"Failed to get transaction history: {e}")
+            return "Sorry, I couldn't retrieve your transactions right now. Please try again later."
