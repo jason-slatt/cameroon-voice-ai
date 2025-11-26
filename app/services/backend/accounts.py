@@ -250,9 +250,13 @@ class AccountService:
             )
 
         except BackendAPIError as e:
-            if e.status_code == 404:
-                logger.info(f"No account found for {phone_number} (404 from /api/my-account)")
+            msg_lower = str(e.message).lower() if hasattr(e, "message") else str(e).lower()
+
+            # 404 or 400 "Compte introuvable" => no account
+            if e.status_code in (400, 404) and "compte introuvable" in msg_lower:
+                logger.info(f"No account found for {phone_number} ({e.status_code} from /api/my-account: {e.message})")
                 return None
+
             logger.error(f"Error fetching account from /api/my-account: {e}")
             raise
 

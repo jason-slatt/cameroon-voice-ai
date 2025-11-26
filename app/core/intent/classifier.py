@@ -9,7 +9,7 @@ from app.config import settings
 
 class Intent(Enum):
     ACCOUNT_CREATION = "account_creation"
-    VIEW_ACCOUNT = "view_account"  # NEW
+    VIEW_ACCOUNT = "view_account"
     WITHDRAWAL = "withdrawal"
     TOPUP = "topup"
     BALANCE_INQUIRY = "balance_inquiry"
@@ -30,52 +30,60 @@ class IntentClassifier:
             Intent.ACCOUNT_CREATION: {
                 'keywords': [
                     'create', 'open', 'new', 'register', 'sign up', 'signup',
-                    'setup', 'set up', 'make', 'start', 'begin'
+                    'setup', 'set up', 'make', 'start', 'begin',
+                    'créer', 'ouvrir'
                 ],
-                'context': ['account', 'profile', 'registration', 'member'],
+                'context': ['account', 'profile', 'registration', 'member', 'compte'],
                 'phrases': [
                     'create account', 'open account', 'new account',
                     'sign up', 'register', 'want account', 'need account',
                     'get account', 'make account', 'start account',
-                    'create an account', 'open an account', 'i want to register'
+                    'create an account', 'open an account', 'i want to register',
+                    'créer un compte', 'ouvrir un compte'
                 ]
             },
-            Intent.VIEW_ACCOUNT: {  # NEW
+            Intent.VIEW_ACCOUNT: {
                 'keywords': [
                     'view', 'show', 'see', 'check', 'display', 'look',
-                    'my account', 'account info', 'account details', 'profile'
+                    'my account', 'account info', 'account details', 'profile',
+                    'mon compte', 'voir', 'afficher'
                 ],
-                'context': ['account', 'profile', 'info', 'information', 'details', 'my'],
+                'context': ['account', 'profile', 'info', 'information', 'details', 'my', 'compte'],
                 'phrases': [
                     'view account', 'show account', 'my account', 'account details',
                     'account info', 'account information', 'see my account',
                     'check my account', 'view my profile', 'show my profile',
-                    'what is my account', 'display account', 'account status', 'View my details'
+                    'what is my account', 'display account', 'account status',
+                    'view my details', 'voir mon compte', 'afficher mon compte'
                 ]
             },
             Intent.WITHDRAWAL: {
                 'keywords': [
                     'withdraw', 'withdrawal', 'take out', 'cash out',
-                    'pull out', 'get money', 'remove', 'transfer out', 'retrait'
+                    'pull out', 'get money', 'remove', 'transfer out',
+                    'retrait', 'retirer'
                 ],
-                'context': ['money', 'cash', 'funds', 'amount', 'xaf', 'fcfa'],
+                'context': ['money', 'cash', 'funds', 'amount', 'xaf', 'fcfa', 'argent'],
                 'phrases': [
                     'withdraw money', 'make withdrawal', 'cash out',
                     'take out money', 'get my money', 'withdraw funds',
-                    'make a withdrawal', 'want to withdraw', 'i want to withdraw'
+                    'make a withdrawal', 'want to withdraw', 'i want to withdraw',
+                    'faire un retrait', 'retirer de l\'argent'
                 ]
             },
             Intent.TOPUP: {
                 'keywords': [
                     'top up', 'topup', 'top-up', 'deposit', 'add', 'load',
-                    'fund', 'put in', 'transfer in', 'recharge', 'credit', 'depot'
+                    'fund', 'put in', 'transfer in', 'recharge', 'credit', 'depot',
+                    'déposer', 'recharger'
                 ],
-                'context': ['money', 'funds', 'balance', 'account', 'cash', 'amount', 'xaf', 'fcfa'],
+                'context': ['money', 'funds', 'balance', 'account', 'cash', 'amount', 'xaf', 'fcfa', 'compte'],
                 'phrases': [
                     'add money', 'deposit money', 'top up', 'top-up', 'topup',
                     'add funds', 'load money', 'put money', 'fund account',
                     'add to balance', 'make a deposit', 'want to deposit',
-                    'i want to deposit', 'i want to top up', 'recharge account'
+                    'i want to deposit', 'i want to top up', 'recharge account',
+                    'faire un dépôt', 'déposer de l\'argent', 'recharger mon compte'
                 ]
             },
             Intent.BALANCE_INQUIRY: {
@@ -83,12 +91,13 @@ class IntentClassifier:
                     'balance', 'how much', 'check', 'available',
                     'status', 'amount', 'total', 'solde'
                 ],
-                'context': ['account', 'money', 'have', 'funds', 'my'],
+                'context': ['account', 'money', 'have', 'funds', 'my', 'wallet', 'compte'],
                 'phrases': [
                     'check balance', 'my balance', 'account balance',
                     'how much money', 'how much do i have', 'available balance',
                     'what is my balance', 'show balance', 'check my balance',
-                    'what do i have', 'my account balance'
+                    'what do i have', 'my account balance',
+                    'quel est mon solde', 'mon solde', 'solde du compte', 'solde du wallet'
                 ]
             },
             Intent.TRANSACTION_HISTORY: {
@@ -96,7 +105,7 @@ class IntentClassifier:
                     'history', 'transactions', 'statement', 'activity',
                     'records', 'past', 'previous', 'recent', 'historique'
                 ],
-                'context': ['transaction', 'payment', 'transfer', 'account'],
+                'context': ['transaction', 'payment', 'transfer', 'account', 'compte'],
                 'phrases': [
                     'transaction history', 'my transactions', 'past transactions',
                     'recent activity', 'account history', 'show transactions',
@@ -127,7 +136,7 @@ class IntentClassifier:
                 'keywords': [
                     'yes', 'yeah', 'yep', 'correct', 'confirm', 'sure',
                     'ok', 'okay', 'right', 'exactly', 'affirmative',
-                    'proceed', 'oui', 'ouais'
+                    'proceed', 'oui', 'ouais', 'd\'accord'
                 ],
                 'context': [],
                 'phrases': ['that\'s right', 'that is correct', 'go ahead', 'sounds good']
@@ -135,7 +144,7 @@ class IntentClassifier:
             Intent.DENIAL: {
                 'keywords': [
                     'no', 'nope', 'cancel', 'stop', 'wrong', 'incorrect',
-                    'nevermind', 'never mind', 'forget it', 'non'
+                    'nevermind', 'never mind', 'forget it', 'non', 'pas du tout'
                 ],
                 'context': [],
                 'phrases': ['no thanks', 'cancel that', 'forget it', 'not right']
@@ -157,39 +166,27 @@ class IntentClassifier:
         return text
     
     def classify(self, text: str) -> Tuple[Intent, float]:
-        """
-        Classify user intent from text.
-        
-        Args:
-            text: User input text
-            
-        Returns:
-            Tuple of (Intent, confidence_score)
-        """
+        """Classify user intent from text."""
         if not text or not text.strip():
             return Intent.GENERAL_SUPPORT, 0.0
         
         text_normalized = self._normalize_text(text)
         
-        # Check blocked phrases
         for phrase in self.blocked_phrases:
             if phrase in text_normalized:
                 return Intent.OFF_TOPIC, 0.9
         
-        # Score each intent
         scores = {}
         
         for intent, patterns in self.intent_patterns.items():
             score = 0.0
             
-            # Check phrases (highest weight)
             for phrase in patterns.get('phrases', []):
                 phrase_normalized = self._normalize_text(phrase)
                 if phrase_normalized in text_normalized:
                     score += 0.8
                     break
             
-            # Check keywords
             keyword_found = False
             for keyword in patterns.get('keywords', []):
                 keyword_normalized = self._normalize_text(keyword)
@@ -198,7 +195,6 @@ class IntentClassifier:
                     keyword_found = True
                     break
             
-            # Check context
             context_words = patterns.get('context', [])
             if context_words:
                 for ctx in context_words:
@@ -206,13 +202,11 @@ class IntentClassifier:
                         score += 0.2
                         break
             
-            # Boost for short inputs with keyword match
             if keyword_found and len(text_normalized.split()) <= 2:
                 score += 0.3
             
             scores[intent] = min(score, 1.0)
         
-        # Find best match
         if scores:
             best_intent = max(scores, key=scores.get)
             best_score = scores[best_intent]

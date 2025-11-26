@@ -1,17 +1,18 @@
-"""Account creation flow"""
+# app/core/conversation/flows/account.py
 
 from typing import Tuple, Optional
-from ..state import ConversationState, FlowType, FlowStep
-from .base import BaseFlow
+from app.core.conversation.state import ConversationState, FlowType, FlowStep
+from app.core.conversation.flows.base import BaseFlow
 from app.core.extraction import DataExtractor
-from app.services.backend import account_service
-from app.config import settings
 from app.config.prompts import FLOW_PROMPTS, GROUPEMENTS
+from app.services.backend.accounts import account_service
+from app.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 class AccountCreationFlow(BaseFlow):
     """Handles account creation flow with all required fields"""
-    
     def __init__(self, state: ConversationState):
         super().__init__(state)
         self.extractor = DataExtractor()

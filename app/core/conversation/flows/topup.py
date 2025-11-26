@@ -7,6 +7,9 @@ from app.core.extraction import DataExtractor
 from app.services.backend import account_service, transaction_service
 from app.config import settings
 from app.config.prompts import FLOW_PROMPTS
+from app.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 class TopUpFlow(BaseFlow):
