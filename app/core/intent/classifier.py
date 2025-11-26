@@ -38,7 +38,7 @@ class IntentClassifier:
                     'create account', 'open account', 'new account',
                     'sign up', 'register', 'want account', 'need account',
                     'get account', 'make account', 'start account',
-                    'create an account', 'open an account', 'i want to register'
+                    'create an account', 'open an account', 'i want to register','i would like to create an account' 
                 ]
             },
             Intent.VIEW_ACCOUNT: {  # NEW
