@@ -182,7 +182,10 @@ class ConversationManager:
         elif intent == Intent.VIEW_ACCOUNT:
             return await self._handle_view_account(state)
         
-        # 3) Balance inquiry
+        elif intent == Intent.BALANCE_INQUIRY:
+            return await self._handle_balance_inquiry(state)
+        
+        # 3) Transactions inquiry
         elif intent == Intent.TRANSACTION_HISTORY:
             return await self._handle_transaction_history(state)
 
@@ -246,22 +249,39 @@ class ConversationManager:
             return "Sorry, I couldn't retrieve your account information. Please try again later."
     
     async def _handle_balance_inquiry(self, state: ConversationState) -> str:
-        """Handle balance inquiry"""
-        if not state.account_id:
-            account = await account_service.get_my_account(state.phone_number)
-            if account:
-                state.account_id = account.id
-                state.account_balance = account.balance
-            else:
-                return "You don't have an account yet. Would you like to create one?"
-        
+        """Handle balance inquiry (CELO wallet) using /api/get-balance."""
+
+        phone = state.phone_number
+
         try:
-            balance = await account_service.get_balance(state.account_id)
-            state.account_balance = balance.balance
-            return f"Your current balance is {balance.balance:.0f} {settings.CURRENCY}. Is there anything else?"
+            # Ensure they actually have an account
+            phone_check = await account_service.check_phone_number(phone)
+            state.mark_phone_checked(phone_check.exists)
+
+            if not state.account_exists:
+                return (
+                    "I couldn't find an account with this phone number. "
+                    "Would you like to create an account?"
+                )
+
+            # Get CELO balance
+            wallet_balance = await account_service.get_balance(phone)
+
+            # Optionally cache this in state
+            state.account_balance = wallet_balance.balance
+
+            return (
+                f"Your current wallet balance is "
+                f"{wallet_balance.balance:.4f} {wallet_balance.currency}. "
+                "Is there anything else I can help you with?"
+            )
+
         except Exception as e:
-            logger.error(f"Failed to get balance: {e}")
-            return "Sorry, I couldn't retrieve your balance. Please try again later."
+            logger.error(f"Failed to handle balance inquiry: {e}")
+            return (
+                "Sorry, I couldn't retrieve your wallet balance right now. "
+                "Please try again later."
+            )
     
     async def _handle_transaction_history(self, state: ConversationState) -> str:
         """Handle transaction history inquiry"""
