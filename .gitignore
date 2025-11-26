@@ -74,3 +74,12 @@ Thumbs.db
 *.wav
 *.mp3
 *.audio
+
+# local audio uploads / generated files
+data/raw/audio/**/dev_uploads/
+data/raw/audio/**/*.ogg
+
+# logs / runtime artifacts
+logs/
+logs/audit/
+*.jsonl
