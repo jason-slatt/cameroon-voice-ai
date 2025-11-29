@@ -6,8 +6,8 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from app.config import settings
-from app.api.routes import api_router, audio_api_router
-from app.services.backend.client import backend_client
+from app.api.v1.router import api_router
+from app.clients import get_bafoka_client
 from app.utils.logging import setup_logging, get_logger
 
 logger = get_logger(__name__)
@@ -37,6 +37,7 @@ async def lifespan(app: FastAPI):
     
     # Shutdown
     logger.info("Shutting down...")
+    backend_client = get_bafoka_client()
     await backend_client.close()
     logger.info("Application stopped")
 
@@ -59,7 +60,6 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(api_router, prefix="/api/v1")
-app.include_router(audio_api_router, prefix="/audio", tags=["Audio"])
 
 
 @app.get("/")

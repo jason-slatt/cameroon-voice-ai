@@ -1,78 +1,34 @@
-"""Application settings and configuration"""
-
-from pydantic_settings import BaseSettings
-from pydantic import Field
-from typing import Optional, List
-from functools import lru_cache
+from pydantic import BaseSettings, AnyHttpUrl
+import os
 
 
 class Settings(BaseSettings):
-    """Application settings loaded from environment variables"""
-    
-    # App Info
-    APP_NAME: str = "BAFOKA Voice Assistant"
-    APP_VERSION: str = "1.0.0"
-    DEBUG: bool = False
-    HOST: str = "0.0.0.0"
-    PORT: int = 8000
-    
-    # Logging
-    LOG_LEVEL: str = "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
-    LOG_TO_FILE: bool = True
-    LOG_TO_CONSOLE: bool = True
-    LOG_DIR: str = "logs"
-    
-    # Company Info
-    COMPANY_NAME: str = "BAFOKA"
-    CURRENCY: str = "XAF"
-    CURRENCY_SYMBOL: str = "FCFA"
-    
-    # Transaction Limits (in XAF)
-    WITHDRAWAL_MIN: float = 500.0
-    WITHDRAWAL_MAX: float = 500000.0
-    WITHDRAWAL_DAILY_LIMIT: float = 1000000.0
-    TOPUP_MIN: float = 500.0
-    TOPUP_MAX: float = 2000000.0
-    
-    # Backend API
-    BACKEND_BASE_URL: str = "https://sandbox.bafoka.network"
-    BACKEND_API_KEY: Optional[str] = None
-    BACKEND_TIMEOUT: int = 30
-    
-    # LLM Settings
-    OLLAMA_BASE_URL: str = "http://localhost:11434"
-    OLLAMA_MODEL: str = "gemma3"
-    MAX_RESPONSE_WORDS: int = 50
-    
-    # Speech-to-Text
-    WHISPER_MODEL: str = "base"
-    STT_ENABLED: bool = True
-    
-    # Text-to-Speech
-    TTS_ENABLED: bool = True
-    TTS_EXAGGERATION: float = 0.5
-    TTS_CFG_WEIGHT: float = 0.5
-    TTS_VOICE_PATH: Optional[str] = None
-    
-    # Audio Storage
-    AUDIO_STORAGE_PATH: str = "audio_files"
-    AUDIO_BASE_URL: str = "http://localhost:8000/audio"
-    AUDIO_FORMAT: str = "wav"
-    AUDIO_CLEANUP_HOURS: int = 24
-    
-    # Storage
-    REDIS_URL: Optional[str] = None
-    CONVERSATION_TTL: int = 3600
-    
+    # LLM: OpenAI-compatible (OpenAI, Ollama, etc.)
+    LLM_BASE_URL: str = os.getenv("LLM_BASE_URL", "http://localhost:11434/v1")
+    LLM_API_KEY: str = os.getenv("LLM_API_KEY", "ollama")
+    LLM_MODEL: str = os.getenv("LLM_MODEL", "llama3.1")
+
+    # Whisper STT model (English-only, as requested)
+    WHISPER_MODEL_NAME: str = os.getenv("WHISPER_MODEL_NAME", "base.en")
+
+    # Coqui TTS model
+    TTS_MODEL_NAME: str = os.getenv(
+        "TTS_MODEL_NAME", "tts_models/en/ljspeech/tacotron2-DDC_ph"
+    )
+
+    # Storage for generated audio
+    AUDIO_STORAGE_PATH: str = os.getenv("AUDIO_STORAGE_PATH", "data/audio")
+
+    # BAFOKA / backend API
+    BACKEND_BASE_URL: AnyHttpUrl = "https://sandbox.bafoka.network"
+    BACKEND_API_KEY: str | None = os.getenv("BACKEND_API_KEY")
+    BACKEND_TIMEOUT: int = int(os.getenv("BACKEND_TIMEOUT", "10"))
+
+    # CORS
+    CORS_ORIGINS: str = os.getenv("CORS_ORIGINS", "*")
+
     class Config:
         env_file = ".env"
-        env_file_encoding = "utf-8"
 
 
-@lru_cache()
-def get_settings() -> Settings:
-    """Get cached settings instance"""
-    return Settings()
-
-
-settings = get_settings()
+settings = Settings()

@@ -1,1 +1,0 @@
-{"log_type": "error", "user_id": "test1", "intent": "faire_virement", "error": "Error connecting to localhost:6379. Multiple exceptions: [Errno 10061] Connect call failed ('::1', 6379, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 6379).", "timestamp": "2025-11-24T22:57:00.497917"}

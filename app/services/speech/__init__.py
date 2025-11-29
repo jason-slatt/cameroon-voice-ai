@@ -1,4 +1,4 @@
-from .stt import STTService, get_stt_service
-from .tts import TTSService, get_tts_service
+from .stt_service import transcribe_audio
+from .tts_service import synthesize_wav
 
-__all__ = ["STTService", "get_stt_service", "TTSService", "get_tts_service"]
+__all__ = ["transcribe_audio", "synthesize_wav"]
