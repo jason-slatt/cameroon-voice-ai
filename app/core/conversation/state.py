@@ -12,22 +12,40 @@ class FlowType(str, Enum):
     TOPUP = "topup"
     BALANCE_INQUIRY = "balance_inquiry"
     TRANSACTION_HISTORY = "transaction_history"
-    TRANSFER = "transfer" 
+    TRANSFER = "transfer"
+    DASHBOARD = "dashboard"
+    PASSWORD_RESET = "password_reset"     
+    PASSWORD_CHANGE = "password_change"   
+    WHATSAPP_LINK = "whatsapp_link"        
 
 
 class FlowStep(str, Enum):
     INIT = "init"
     CONFIRM = "confirm"
     COMPLETE = "complete"
+    
+    # Registration steps
     ASK_NAME = "ask_name"
     ASK_AGE = "ask_age"
     ASK_SEX = "ask_sex"
     ASK_GROUPEMENT = "ask_groupement"
+    
+    # Transaction steps
     ASK_AMOUNT = "ask_amount"
-
-    #transfer
     ASK_RECEIVER = "ask_receiver"
     ASK_PIN = "ask_pin"
+
+    # Dashboard steps
+    ASK_DASHBOARD_ACTION = "ask_dashboard_action"
+
+    # Password change steps
+    ASK_OLD_PASSWORD = "ask_old_password"     
+    ASK_NEW_PASSWORD = "ask_new_password"      
+    CONFIRM_PASSWORD = "confirm_password"      
+
+    # WhatsApp linking steps
+    ASK_WHATSAPP_CHOICE = "ask_whatsapp_choice"    
+    ASK_WHATSAPP_NUMBER = "ask_whatsapp_number"   
 
 
 @dataclass

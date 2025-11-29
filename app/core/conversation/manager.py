@@ -3,7 +3,10 @@
 from typing import Optional, Tuple, Dict, Any
 
 from app.core.conversation.flows.transfer import TransferFlow
-from app.services.backend.models import TransactionType
+from app.core.conversation.flows.dashboard import DashboardFlow
+from app.core.conversation.flows.password_reset import PasswordResetFlow
+from app.core.conversation.flows.password_change import PasswordChangeFlow
+from app.core.conversation.flows.whatsapp_link import WhatsAppLinkFlow
 from .state import ConversationState, FlowType, FlowStep
 from .flows.account import AccountCreationFlow
 from .flows.withdrawal import WithdrawalFlow
@@ -15,16 +18,11 @@ from app.config import settings
 from app.services.backend.accounts import account_service
 from app.services.backend.transactions import (
     transaction_service,
-    TransactionType,  # <-- import TransactionType
+    TransactionType,
 )
 from app.storage import ConversationStore
 from app.utils.logging import get_logger
 from app.utils.lang import detect_language
-
-# Import the flow classes
-from app.core.conversation.flows.account import AccountCreationFlow
-from app.core.conversation.flows.withdrawal import WithdrawalFlow
-from app.core.conversation.flows.topup import TopUpFlow
 
 logger = get_logger(__name__)
 
@@ -49,7 +47,6 @@ class ConversationManager:
                 user_id=user_id,
                 phone_number=phone_number,
             )
-            # we don't set lang here; we set it on first message
 
         return state
 
@@ -99,13 +96,6 @@ class ConversationManager:
         await self.store.save(state)
         return response, metadata
 
-    # _process_flow, _handle_intent, etc. stay as previously discussed,
-    # but when you need a prompt from FLOW_PROMPTS, you pick based on state.lang:
-    #
-    #   lang = state.lang or "en"
-    #   key = f"start_{lang}"
-    #   prompt = FLOW_PROMPTS["account_creation"].get(key, FLOW_PROMPTS["account_creation"]["start_en"])
-    
     async def _process_flow(
         self,
         state: ConversationState,
@@ -132,6 +122,11 @@ class ConversationManager:
             FlowType.ACCOUNT_CREATION: AccountCreationFlow,
             FlowType.WITHDRAWAL: WithdrawalFlow,
             FlowType.TOPUP: TopUpFlow,
+            FlowType.TRANSFER: TransferFlow,
+            FlowType.DASHBOARD: DashboardFlow,
+            FlowType.PASSWORD_RESET: PasswordResetFlow,
+            FlowType.PASSWORD_CHANGE: PasswordChangeFlow,
+            FlowType.WHATSAPP_LINK: WhatsAppLinkFlow,
         }
         
         flow_class = flow_map.get(state.flow_type)
@@ -147,9 +142,8 @@ class ConversationManager:
     ) -> str:
         """Handle classified intent"""
 
-        # 1) Account creation: enforce global "no creation if account exists"
+        # 1) Account creation
         if intent == Intent.ACCOUNT_CREATION:
-            # Ensure we know if this phone already has an account
             exists = state.account_exists
 
             if not state.phone_checked:
@@ -168,7 +162,6 @@ class ConversationManager:
                     exists = False
                     state.mark_phone_checked(False)
 
-            # If account already exists, NEVER start creation flow
             if exists:
                 return (
                     f"You already have an account with {settings.COMPANY_NAME}. "
@@ -176,38 +169,84 @@ class ConversationManager:
                     "or top up your balance. What would you like to do?"
                 )
 
-            # Only if no account: start account creation flow
             flow = AccountCreationFlow(state)
             return await flow.start()
 
-        # 2) View account (we added this intent earlier)
+        # 2) View account
         elif intent == Intent.VIEW_ACCOUNT:
             return await self._handle_view_account(state)
         
+        # 3) Balance inquiry
         elif intent == Intent.BALANCE_INQUIRY:
             return await self._handle_balance_inquiry(state)
         
-        # 3) Transactions inquiry
+        # 4) Transaction history
         elif intent == Intent.TRANSACTION_HISTORY:
             return await self._handle_transaction_history(state)
 
-        # 3) Withdrawals: require an account
+        # 5) Withdrawals
         elif intent == Intent.WITHDRAWAL:
             if not state.account_exists:
                 return "You need an account to make a withdrawal. Would you like to view your account or create one?"
             flow = WithdrawalFlow(state)
             return await flow.start()
 
-        # 4) Top-ups: require an account
+        # 6) Top-ups
         elif intent == Intent.TOPUP:
             if not state.account_exists:
                 return "You need an account to make a deposit. Would you like to view your account or create one?"
             flow = TopUpFlow(state)
             return await flow.start()
+        
+        # 7) Transfer
         elif intent == Intent.TRANSFER:
             flow = TransferFlow(state)
             return await flow.start()
         
+        # 8) Dashboard
+        elif intent == Intent.DASHBOARD:
+            flow = DashboardFlow(state)
+            return await flow.start()
+
+        # 9) Password Reset
+        elif intent == Intent.PASSWORD_RESET:
+            flow = PasswordResetFlow(state)
+            return await flow.start()
+
+        # 10) Password Change
+        elif intent == Intent.PASSWORD_CHANGE:
+            flow = PasswordChangeFlow(state)
+            return await flow.start()
+
+        # 11) WhatsApp Link
+        elif intent == Intent.WHATSAPP_LINK:
+            flow = WhatsAppLinkFlow(state)
+            return await flow.start()
+        
+        # 12) Help
+        elif intent == Intent.GENERAL_SUPPORT:
+            return self._get_help_message(state)
+        
+        # 13) Greeting
+        elif intent == Intent.GREETING:
+            return self._get_greeting_message(state)
+        
+        # 14) Goodbye
+        elif intent == Intent.GOODBYE:
+            return self._get_goodbye_message(state)
+
+        # 15) Confirmation/Denial outside of flow
+        elif intent in (Intent.CONFIRMATION, Intent.DENIAL):
+            return self._get_help_message(state)
+        
+        # 16) Off-topic
+        elif intent == Intent.OFF_TOPIC:
+            return self._get_off_topic_message(state)
+        
+        # Default
+        else:
+            return self._get_unknown_message(state)
+    
     async def _handle_view_account(self, state: ConversationState) -> str:
         """Handle view account request"""
         try:
@@ -219,11 +258,9 @@ class ConversationManager:
                     "Would you like to create an account?"
                 )
             
-            # Update state with account info
             state.account_id = account.id
             state.account_balance = account.balance
             
-            # Format account details
             sex_display = "Male" if account.sex == "M" else "Female" if account.sex == "F" else "Not specified"
             
             response_lines = [
@@ -254,12 +291,10 @@ class ConversationManager:
             return "Sorry, I couldn't retrieve your account information. Please try again later."
     
     async def _handle_balance_inquiry(self, state: ConversationState) -> str:
-        """Handle balance inquiry (CELO wallet) using /api/get-balance."""
-
+        """Handle balance inquiry"""
         phone = state.phone_number
 
         try:
-            # Ensure they actually have an account
             phone_check = await account_service.check_phone_number(phone)
             state.mark_phone_checked(phone_check.exists)
 
@@ -269,10 +304,7 @@ class ConversationManager:
                     "Would you like to create an account?"
                 )
 
-            # Get CELO balance
             wallet_balance = await account_service.get_balance(phone)
-
-            # Optionally cache this in state
             state.account_balance = wallet_balance.balance
 
             return (
@@ -290,11 +322,9 @@ class ConversationManager:
     
     async def _handle_transaction_history(self, state: ConversationState) -> str:
         """Handle transaction history inquiry"""
-
         phone = state.phone_number
 
         try:
-            # OPTIONAL: Ensure user has an account first
             phone_check = await account_service.check_phone_number(phone)
             state.mark_phone_checked(phone_check.exists)
 
@@ -304,7 +334,6 @@ class ConversationManager:
                     "Would you like to create an account?"
                 )
 
-            # Call GET /dashboard/transactions
             transactions = await transaction_service.get_dashboard_transactions(
                 phone_number=phone,
                 limit=5,
@@ -337,3 +366,76 @@ class ConversationManager:
         except Exception as e:
             logger.error(f"Failed to get transaction history: {e}")
             return "Sorry, I couldn't retrieve your transactions right now. Please try again later."
+
+    # =========================================================================
+    # HELPER METHODS FOR RESPONSES
+    # =========================================================================
+
+    def _get_help_message(self, state: ConversationState) -> str:
+        """Get help message in user's language"""
+        lang = state.lang or "en"
+        if lang == "fr":
+            return (
+                "Je peux vous aider à :\n"
+                "• Créer un compte\n"
+                "• Voir votre compte\n"
+                "• Faire un retrait\n"
+                "• Faire un dépôt\n"
+                "• Vérifier votre solde\n"
+                "• Voir l'historique des transactions\n"
+                "• Envoyer de l'argent (transfert)\n"
+                "• Voir le tableau de bord\n"
+                "• Réinitialiser votre mot de passe\n"
+                "• Changer votre mot de passe\n"
+                "• Lier votre compte WhatsApp\n\n"
+                "Que souhaitez-vous faire ?"
+            )
+        return (
+            "I can help you with:\n"
+            "• Create an account\n"
+            "• View your account\n"
+            "• Make a withdrawal\n"
+            "• Make a deposit\n"
+            "• Check your balance\n"
+            "• View transaction history\n"
+            "• Send money (transfer)\n"
+            "• View dashboard & statistics\n"
+            "• Reset your password\n"
+            "• Change your password\n"
+            "• Link your WhatsApp account\n\n"
+            "What would you like to do?"
+        )
+
+    def _get_greeting_message(self, state: ConversationState) -> str:
+        """Get greeting message in user's language"""
+        lang = state.lang or "en"
+        if lang == "fr":
+            return f"Bienvenue chez {settings.COMPANY_NAME} ! Comment puis-je vous aider aujourd'hui ?"
+        return f"Welcome to {settings.COMPANY_NAME}! How can I help you today?"
+
+    def _get_goodbye_message(self, state: ConversationState) -> str:
+        """Get goodbye message in user's language"""
+        lang = state.lang or "en"
+        if lang == "fr":
+            return "Merci d'utiliser notre service. Bonne journée !"
+        return "Thank you for using our service. Have a great day!"
+
+    def _get_unknown_message(self, state: ConversationState) -> str:
+        """Get unknown intent message in user's language"""
+        lang = state.lang or "en"
+        if lang == "fr":
+            return "Je suis désolé, je n'ai pas compris. Pourriez-vous reformuler ?"
+        return "I'm sorry, I didn't understand that. Could you please rephrase?"
+
+    def _get_off_topic_message(self, state: ConversationState) -> str:
+        """Get off-topic message in user's language"""
+        lang = state.lang or "en"
+        if lang == "fr":
+            return (
+                f"Je suis l'assistant de {settings.COMPANY_NAME} et je ne peux vous aider "
+                "qu'avec les services liés à votre compte. Comment puis-je vous aider avec votre compte ?"
+            )
+        return (
+            f"I'm the {settings.COMPANY_NAME} assistant and I can only help with "
+            "account-related services. How can I help you with your account?"
+        )

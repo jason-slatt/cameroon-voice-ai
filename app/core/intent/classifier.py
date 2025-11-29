@@ -5,7 +5,6 @@ from typing import Tuple
 import re
 
 
-
 class Intent(Enum):
     ACCOUNT_CREATION = "account_creation"
     VIEW_ACCOUNT = "view_account"
@@ -14,6 +13,10 @@ class Intent(Enum):
     TRANSFER = "transfer"
     BALANCE_INQUIRY = "balance_inquiry"
     TRANSACTION_HISTORY = "transaction_history"
+    DASHBOARD = "dashboard"
+    PASSWORD_RESET = "password_reset"      # NEW
+    PASSWORD_CHANGE = "password_change"    # NEW
+    WHATSAPP_LINK = "whatsapp_link"        # NEW
     GREETING = "greeting"
     GOODBYE = "goodbye"
     GENERAL_SUPPORT = "general_support"
@@ -236,6 +239,57 @@ class IntentClassifier:
                 ],
             },
 
+            # =========================================================================
+            # DASHBOARD INTENT - ADDED
+            # =========================================================================
+            Intent.DASHBOARD: {
+                "keywords": [
+                    # EN
+                    "dashboard", "statistics", "stats", "analytics", "overview",
+                    "summary", "admin", "reports", "report", "metrics",
+                    "registrations", "holders", "all accounts", "all users",
+                    "total amount", "total transactions",
+                    # FR
+                    "tableau de bord", "statistiques", "stats", "analytique",
+                    "aperçu", "apercu", "résumé", "resume", "rapports", "rapport",
+                    "métriques", "metriques", "inscriptions", "titulaires",
+                    "détenteurs", "detenteurs", "tous les comptes", "tous les utilisateurs",
+                    "montant total", "total des transactions",
+                ],
+                "context": [
+                    # EN
+                    "view", "show", "see", "check", "display", "get",
+                    "system", "platform", "overall", "global",
+                    # FR
+                    "voir", "afficher", "consulter", "système", "systeme",
+                    "plateforme", "global", "général", "general",
+                ],
+                "phrases": [
+                    # EN
+                    "show dashboard", "view dashboard", "open dashboard",
+                    "show statistics", "view statistics", "show stats", "view stats",
+                    "registration statistics", "registration stats", "signup stats",
+                    "show registrations", "view registrations", "how many registrations",
+                    "account holders", "show holders", "view holders", "list holders",
+                    "all account holders", "list all accounts", "show all users",
+                    "total transaction amount", "transaction totals", "show totals",
+                    "platform overview", "system overview", "show overview",
+                    "show analytics", "view analytics", "get reports",
+                    # FR
+                    "voir le tableau de bord", "afficher le tableau de bord",
+                    "ouvrir le tableau de bord", "montrer le tableau de bord",
+                    "voir les statistiques", "afficher les statistiques",
+                    "statistiques d'inscription", "stats d'inscription",
+                    "voir les inscriptions", "afficher les inscriptions",
+                    "combien d'inscriptions", "nombre d'inscriptions",
+                    "titulaires de comptes", "voir les titulaires", "liste des titulaires",
+                    "détenteurs de comptes", "liste des détenteurs",
+                    "tous les comptes", "afficher tous les comptes",
+                    "montant total des transactions", "total des transactions",
+                    "aperçu de la plateforme", "aperçu général", "vue d'ensemble",
+                ],
+            },
+
             Intent.GREETING: {
                 "keywords": [
                     "hello", "hi", "hey", "good morning", "good afternoon",
@@ -244,6 +298,90 @@ class IntentClassifier:
                 ],
                 "context": [],
                 "phrases": ["hello there", "hi there", "hey there", "bonjour à vous", "salut à toi"],
+            },
+
+            # =========================================================================
+            # PASSWORD RESET INTENT 
+            # =========================================================================
+            Intent.PASSWORD_RESET: {
+                "keywords": [
+                    # EN
+                    "reset", "forgot", "forgotten", "lost", "recover",
+                    # FR
+                    "réinitialiser", "reinitialiser", "oublié", "oublie",
+                    "perdu", "récupérer", "recuperer",
+                ],
+                "context": [
+                    "password", "pin", "code", "mot de passe", "mdp",
+                ],
+                "phrases": [
+                    # EN
+                    "reset password", "forgot password", "forgot my password",
+                    "lost password", "reset my password", "recover password",
+                    "i forgot my password", "password reset", "forgot pin",
+                    "reset pin", "lost my pin",
+                    # FR
+                    "réinitialiser mot de passe", "mot de passe oublié",
+                    "j'ai oublié mon mot de passe", "récupérer mot de passe",
+                    "reinitialiser mot de passe", "oublié mot de passe",
+                    "réinitialiser mon mot de passe", "pin oublié",
+                ],
+            },
+
+            # =========================================================================
+            # PASSWORD CHANGE INTENT 
+            # =========================================================================
+            Intent.PASSWORD_CHANGE: {
+                "keywords": [
+                    # EN
+                    "change", "update", "modify", "new password",
+                    # FR
+                    "changer", "modifier", "mettre à jour", "nouveau",
+                ],
+                "context": [
+                    "password", "pin", "code", "mot de passe", "mdp",
+                ],
+                "phrases": [
+                    # EN
+                    "change password", "change my password", "update password",
+                    "new password", "modify password", "change pin",
+                    "update my password", "i want to change my password",
+                    "set new password", "change my pin",
+                    # FR
+                    "changer mot de passe", "changer mon mot de passe",
+                    "modifier mot de passe", "nouveau mot de passe",
+                    "mettre à jour mot de passe", "changer le mot de passe",
+                    "je veux changer mon mot de passe", "changer pin",
+                    "modifier mon mot de passe",
+                ],
+            },
+
+            # =========================================================================
+            # WHATSAPP LINK INTENT 
+            # =========================================================================
+            Intent.WHATSAPP_LINK: {
+                "keywords": [
+                    # EN
+                    "whatsapp", "link", "connect", "associate",
+                    # FR
+                    "lier", "associer", "connecter", "liaison",
+                ],
+                "context": [
+                    "whatsapp", "wa", "account", "phone", "number",
+                    "compte", "numéro", "numero", "téléphone", "telephone",
+                ],
+                "phrases": [
+                    # EN
+                    "link whatsapp", "connect whatsapp", "whatsapp link",
+                    "link my whatsapp", "connect my whatsapp",
+                    "associate whatsapp", "add whatsapp", "setup whatsapp",
+                    "link whatsapp account", "connect whatsapp number",
+                    # FR
+                    "lier whatsapp", "connecter whatsapp", "associer whatsapp",
+                    "lier mon whatsapp", "connecter mon whatsapp",
+                    "liaison whatsapp", "ajouter whatsapp",
+                    "lier compte whatsapp", "associer mon whatsapp",
+                ],
             },
 
             Intent.GOODBYE: {

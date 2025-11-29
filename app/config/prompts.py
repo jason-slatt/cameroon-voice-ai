@@ -1,4 +1,3 @@
-
 """LLM prompts and templates"""
 
 from .settings import settings
@@ -35,6 +34,7 @@ YOUR RESPONSIBILITIES:
 5. Balance Inquiries — Check CELO wallet balances
 6. Transaction History — Review past barter exchanges
 7. Barter Guidance — Explain how to propose and accept trades
+8. Dashboard — View transactions, stats, registrations, and account holders
 
 OTHER RULES:
 - Keep responses under {settings.MAX_RESPONSE_WORDS} words
@@ -277,43 +277,148 @@ FLOW_PROMPTS = {
         # === Confirm Prompt ===
         "confirm_prompt_en": "Please confirm: do you want to proceed with this deposit? Say 'yes' or 'no'.",
         "confirm_prompt_fr": "Veuillez confirmer : voulez-vous procéder à ce dépôt ? Dites 'oui' ou 'non'.",
+    },
 
     "transfer": {
-        "start_en": "Sure — who do you want to send money to? Please share the receiver phone number.",
-        "start_fr": "D’accord — à qui voulez-vous envoyer de l’argent ? Donnez le numéro du bénéficiaire.",
+        # === Start ===
+        "start_en": "Sure — who do you want to send money to? Please share the receiver's phone number.",
+        "start_fr": "D'accord — à qui voulez-vous envoyer de l'argent ? Donnez le numéro du bénéficiaire.",
 
-        "ask_receiver_retry_en": "I couldn't read the receiver phone number. Please send digits only (example: 690123456).",
-        "ask_receiver_retry_fr": "Je n’ai pas compris le numéro. Envoyez uniquement les chiffres (ex: 690123456).",
+        # === Ask Receiver ===
+        "ask_receiver_retry_en": "I couldn't read the receiver's phone number. Please send digits only (example: 690123456).",
+        "ask_receiver_retry_fr": "Je n'ai pas compris le numéro. Envoyez uniquement les chiffres (ex: 690123456).",
 
+        # === Ask Amount ===
         "ask_amount_en": f"How much do you want to send? (in {settings.CURRENCY})",
         "ask_amount_fr": f"Quel montant voulez-vous envoyer ? (en {settings.CURRENCY})",
 
         "ask_amount_retry_en": f"I couldn't understand the amount. Please send a number like '10000' (in {settings.CURRENCY}).",
-        "ask_amount_retry_fr": f"Je n’ai pas compris le montant. Envoyez un nombre comme '10000' (en {settings.CURRENCY}).",
+        "ask_amount_retry_fr": f"Je n'ai pas compris le montant. Envoyez un nombre comme '10000' (en {settings.CURRENCY}).",
 
+        # === Ask PIN ===
         "ask_pin_en": "Please enter your PIN to confirm the transfer.",
         "ask_pin_fr": "Veuillez entrer votre code PIN pour confirmer le transfert.",
 
         "ask_pin_retry_en": "Invalid PIN. Please enter a valid PIN (4–6 digits).",
         "ask_pin_retry_fr": "PIN invalide. Entrez un PIN valide (4 à 6 chiffres).",
 
-        "confirm_en": "Confirm transfer: send {amount:.0f} {currency} to {receiver}. Reply 'yes' to confirm or 'no' to cancel.",
-        "confirm_fr": "Confirmez le transfert : envoyer {amount:.0f} {currency} à {receiver}. Dites 'oui' pour confirmer ou 'non' pour annuler.",
+        # === Confirmation ===
+        "confirm_en": "Confirm transfer: send {amount} {currency} to {receiver}. Reply 'yes' to confirm or 'no' to cancel.",
+        "confirm_fr": "Confirmez le transfert : envoyer {amount} {currency} à {receiver}. Dites 'oui' pour confirmer ou 'non' pour annuler.",
 
         "confirm_retry_en": "Please reply 'yes' to confirm or 'no' to cancel this transfer.",
         "confirm_retry_fr": "Veuillez répondre 'oui' pour confirmer ou 'non' pour annuler.",
 
+        # === Insufficient Funds ===
         "insufficient_funds_en": "Sorry, you don't have enough balance. Your current balance is {balance:.0f} {currency}.",
         "insufficient_funds_fr": "Désolé, solde insuffisant. Votre solde actuel est {balance:.0f} {currency}.",
 
+        # === Success ===
         "success_en": "✅ Transfer completed successfully. Reference: {reference}.",
         "success_fr": "✅ Transfert effectué avec succès. Référence : {reference}.",
 
+        # === Error ===
         "error_en": "I'm sorry, there was an issue processing your transfer. Please try again later.",
         "error_fr": "Je suis désolé, un problème est survenu lors du transfert. Veuillez réessayer plus tard.",
+
+        # === Max Attempts ===
+        "max_attempts_en": "I'm having trouble understanding. Let's try again later.",
+        "max_attempts_fr": "J'ai du mal à comprendre. Réessayons plus tard.",
+
+        # === Cancel ===
+        "cancelled_en": "Transfer cancelled. How else can I help you?",
+        "cancelled_fr": "Transfert annulé. Comment puis-je vous aider autrement ?",
+    },
+
+    "dashboard": {
+        # === Start ===
+        "start_en": (
+            "What would you like to view?\n\n"
+            "1️⃣ **Transactions** - View transaction history\n"
+            "2️⃣ **Total Amount** - See total transaction amount\n"
+            "3️⃣ **Registrations** - View registration statistics\n"
+            "4️⃣ **Account Holders** - See list of account holders\n\n"
+            "Just tell me what you'd like to see!"
+        ),
+        "start_fr": (
+            "Que souhaitez-vous consulter ?\n\n"
+            "1️⃣ **Transactions** - Voir l'historique des transactions\n"
+            "2️⃣ **Montant Total** - Voir le montant total des transactions\n"
+            "3️⃣ **Inscriptions** - Voir les statistiques d'inscription\n"
+            "4️⃣ **Titulaires de Comptes** - Voir la liste des détenteurs de comptes\n\n"
+            "Dites-moi ce que vous voulez voir !"
+        ),
+
+        # === Ask Action Retry ===
+        "ask_action_retry_en": (
+            "I didn't understand that. Please choose one of:\n"
+            "• **Transactions** - to see transaction history\n"
+            "• **Total Amount** - to see transaction totals\n"
+            "• **Registrations** - to see signup stats\n"
+            "• **Holders** - to see account holders"
+        ),
+        "ask_action_retry_fr": (
+            "Je n'ai pas compris. Veuillez choisir parmi :\n"
+            "• **Transactions** - pour voir l'historique\n"
+            "• **Montant Total** - pour voir les totaux\n"
+            "• **Inscriptions** - pour voir les stats d'inscription\n"
+            "• **Titulaires** - pour voir les détenteurs de comptes"
+        ),
+
+        # === Transactions ===
+        "transactions_header_en": "📋 **Recent Transactions:**",
+        "transactions_header_fr": "📋 **Transactions Récentes :**",
+
+        "no_transactions_en": "You don't have any transactions yet.",
+        "no_transactions_fr": "Vous n'avez pas encore de transactions.",
+
+        # === Transaction Amount ===
+        "amount_header_en": "💰 **Transaction Summary:**",
+        "amount_header_fr": "💰 **Résumé des Transactions :**",
+
+        "total_amount_en": "Total Amount: **{amount} {currency}**",
+        "total_amount_fr": "Montant Total : **{amount} {currency}**",
+
+        "total_count_en": "Total Transactions: **{count}**",
+        "total_count_fr": "Nombre de Transactions : **{count}**",
+
+        # === Registrations ===
+        "registrations_header_en": "📊 **Registration Statistics:**",
+        "registrations_header_fr": "📊 **Statistiques d'Inscription :**",
+
+        "total_registrations_en": "Total Registrations: **{count}**",
+        "total_registrations_fr": "Total des Inscriptions : **{count}**",
+
+        "breakdown_header_en": "**Breakdown:**",
+        "breakdown_header_fr": "**Détails :**",
+
+        # === Account Holders ===
+        "holders_header_en": "👥 **Account Holders:**",
+        "holders_header_fr": "👥 **Titulaires de Comptes :**",
+
+        "no_holders_en": "No account holders found.",
+        "no_holders_fr": "Aucun titulaire de compte trouvé.",
+
+        "holder_balance_en": "Balance: {balance} {currency}",
+        "holder_balance_fr": "Solde : {balance} {currency}",
+
+        "holder_group_en": "Group: {group}",
+        "holder_group_fr": "Groupement : {group}",
+
+        # === Error ===
+        "error_en": "Sorry, I couldn't fetch the dashboard data. Please try again later.",
+        "error_fr": "Désolé, je n'ai pas pu récupérer les données. Veuillez réessayer plus tard.",
+
+        # === Max Attempts ===
+        "max_attempts_en": "I'm having trouble understanding. Let's try again later.",
+        "max_attempts_fr": "J'ai du mal à comprendre. Réessayons plus tard.",
+
+        # === Cancel ===
+        "cancelled_en": "Dashboard view cancelled. How else can I help you?",
+        "cancelled_fr": "Consultation annulée. Comment puis-je vous aider autrement ?",
     },
 }
-    },
+
 
 # General responses (not flow-specific)
 GENERAL_RESPONSES = {
@@ -330,7 +435,8 @@ GENERAL_RESPONSES = {
         "• Make a withdrawal\n"
         "• Make a deposit\n"
         "• Check your balance\n"
-        "• View transaction history\n\n"
+        "• View transaction history\n"
+        "• View dashboard & statistics\n\n"
         "What would you like to do?"
     ),
     "help_fr": (
@@ -340,7 +446,8 @@ GENERAL_RESPONSES = {
         "• Faire un retrait\n"
         "• Faire un dépôt\n"
         "• Vérifier votre solde\n"
-        "• Voir l'historique des transactions\n\n"
+        "• Voir l'historique des transactions\n"
+        "• Voir le tableau de bord et statistiques\n\n"
         "Que souhaitez-vous faire ?"
     ),
 
@@ -359,3 +466,68 @@ GENERAL_RESPONSES = {
         "Je peux vous aider à voir votre compte, vérifier votre solde, faire un retrait ou un dépôt. Que souhaitez-vous faire ?"
     ),
 }
+
+
+def get_prompt(flow: str, key: str, lang: str = "en", **kwargs) -> str:
+    """
+    Get a prompt by flow and key with language support.
+    
+    Args:
+        flow: Flow name (e.g., "dashboard", "transfer")
+        key: Prompt key (e.g., "start", "error")
+        lang: Language code ("en" or "fr")
+        **kwargs: Format arguments for the prompt
+    
+    Returns:
+        Formatted prompt string
+    """
+    flow_prompts = FLOW_PROMPTS.get(flow, {})
+    
+    # Try language-specific key first
+    prompt_key = f"{key}_{lang}"
+    prompt = flow_prompts.get(prompt_key)
+    
+    # Fallback to English if not found
+    if prompt is None:
+        prompt = flow_prompts.get(f"{key}_en", "")
+    
+    # Fallback to key without language suffix
+    if not prompt:
+        prompt = flow_prompts.get(key, "")
+    
+    # Format with kwargs if provided
+    if kwargs and prompt:
+        try:
+            return prompt.format(**kwargs)
+        except KeyError:
+            return prompt
+    
+    return prompt
+
+
+def get_general_response(key: str, lang: str = "en", **kwargs) -> str:
+    """
+    Get a general response with language support.
+    
+    Args:
+        key: Response key (e.g., "welcome", "help")
+        lang: Language code ("en" or "fr")
+        **kwargs: Format arguments
+    
+    Returns:
+        Formatted response string
+    """
+    response_key = f"{key}_{lang}"
+    response = GENERAL_RESPONSES.get(response_key)
+    
+    # Fallback to English
+    if response is None:
+        response = GENERAL_RESPONSES.get(f"{key}_en", "")
+    
+    if kwargs and response:
+        try:
+            return response.format(**kwargs)
+        except KeyError:
+            return response
+    
+    return response
