@@ -83,3 +83,11 @@ data/raw/audio/**/*.ogg
 logs/
 logs/audit/
 *.jsonl
+
+# Large files
+models/*.pt
+models/*.bin
+models/*.onnx
+logs/*.log
+*.pt
+*.pth
